@@ -1,7 +1,7 @@
 import 'package:mafia_2/domain/data_models/last_move_model.dart';
 
 class LastMoves {
-  static List<LastMove> moves = [
+  static List<LastMove> cards = [
     LastMove(
         name: 'تابلو',
         description: """یک نفر را انتخاب کن.
