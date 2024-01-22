@@ -4,7 +4,7 @@ part 'role_model.freezed.dart';
 
 part 'role_model.g.dart';
 
-@freezed
+@unfreezed
 class Role with _$Role {
   factory Role({
     required String name,

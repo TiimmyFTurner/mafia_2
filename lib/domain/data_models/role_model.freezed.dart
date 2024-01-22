@@ -21,9 +21,13 @@ Role _$RoleFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Role {
   String get name => throw _privateConstructorUsedError;
+  set name(String value) => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
+  set type(String value) => throw _privateConstructorUsedError;
   String get job => throw _privateConstructorUsedError;
+  set job(String value) => throw _privateConstructorUsedError;
   int get order => throw _privateConstructorUsedError;
+  set order(int value) => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -136,33 +140,18 @@ class _$RoleImpl implements _Role {
       _$$RoleImplFromJson(json);
 
   @override
-  final String name;
+  String name;
   @override
-  final String type;
+  String type;
   @override
-  final String job;
+  String job;
   @override
-  final int order;
+  int order;
 
   @override
   String toString() {
     return 'Role(name: $name, type: $type, job: $job, order: $order)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RoleImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.job, job) || other.job == job) &&
-            (identical(other.order, order) || other.order == order));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, name, type, job, order);
 
   @JsonKey(ignore: true)
   @override
@@ -180,21 +169,25 @@ class _$RoleImpl implements _Role {
 
 abstract class _Role implements Role {
   factory _Role(
-      {required final String name,
-      required final String type,
-      required final String job,
-      required final int order}) = _$RoleImpl;
+      {required String name,
+      required String type,
+      required String job,
+      required int order}) = _$RoleImpl;
 
   factory _Role.fromJson(Map<String, dynamic> json) = _$RoleImpl.fromJson;
 
   @override
   String get name;
+  set name(String value);
   @override
   String get type;
+  set type(String value);
   @override
   String get job;
+  set job(String value);
   @override
   int get order;
+  set order(int value);
   @override
   @JsonKey(ignore: true)
   _$$RoleImplCopyWith<_$RoleImpl> get copyWith =>
