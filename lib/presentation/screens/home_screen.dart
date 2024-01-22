@@ -66,12 +66,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             "روش بازی",
                             style: TextStyle(fontSize: 24),
                           ),
-                          onPressed: () {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //       builder: (context) => HowToPlay()),
-                            // );
-                          },
+                          onPressed: () => context.pushNamed('howToPlay'),
                         ),
                       ),
                     ),

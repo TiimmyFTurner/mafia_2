@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/presentation/screens/help_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/home_screen.dart';
+import 'package:mafia_2/presentation/screens/how_to_play_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -13,7 +14,12 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/helpRoles',
       name: 'helpRolesScreen',
-      builder: (context, state) =>  HelpRolesScreen(),
+      builder: (context, state) =>  const HelpRolesScreen(),
+    ),
+    GoRoute(
+      path: '/howToPlay',
+      name: 'howToPlay',
+      builder: (context, state) =>  const HowToPlayScreen(),
     )
   ],
 );
