@@ -6,6 +6,7 @@ import 'package:mafia_2/infrastructure/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
   return runApp(ProviderScope(
     overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
