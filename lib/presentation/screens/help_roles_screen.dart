@@ -1,12 +1,11 @@
-// import 'package:mafia/pages/myRoles.dart';
-// import 'package:mafia/providers/providers.dart';
-// import 'package:mafia/widgets/role_list_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
 
 class HelpRolesScreen extends ConsumerWidget {
+  const HelpRolesScreen({super.key});
+
   Widget _roleDetails(context, role) {
     String type = role.type == 'C'
         ? "شهروند"
@@ -48,7 +47,7 @@ class HelpRolesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final rNPProviderListener = ref.watch(rolesNPlayersProvider.notifier);
+    final rNPProviderListener = ref.read(rolesNPlayersProvider.notifier);
     List mafia = rNPProviderListener.mafia;
     List citizen = rNPProviderListener.citizen;
     List independent = rNPProviderListener.independent;
