@@ -13,6 +13,7 @@ class RolesNPlayers extends _$RolesNPlayers {
 
   @override
   List<dynamic> build() {
+    newGame();
     return [];
   }
 
