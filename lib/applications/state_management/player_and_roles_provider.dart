@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mafia_2/applications/state_management/shared_preferences_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
 import 'package:mafia_2/domain/data_models/role_model.dart';
 import 'package:mafia_2/infrastructure/data/roles_data.dart';
@@ -8,49 +9,276 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'player_and_roles_provider.g.dart';
 
+// **************************************************************************
+// Limit Lock
+// **************************************************************************
 @riverpod
-class RolesNPlayers extends _$RolesNPlayers {
+class LimitLock extends _$LimitLock {
+  late SharedPreferences _prefs;
 
   @override
-  List<dynamic> build() {
-    newGame();
-    return [];
+  bool build() {
+    _prefs = ref.watch(sharedPreferencesProvider);
+    bool status = _prefs.getBool('limitLock') ?? true;
+    return status;
   }
 
-  List<String> _players = [];
+  void toggle() {
+    state = !state;
+    if (state & ref.read(starRoleProvider) == true) {
+      ref.read(starRoleProvider.notifier).toggle();
+    }
+    _prefs.setBool('limitLock', state);
+  }
+}
+
+// **************************************************************************
+// Star Role
+// **************************************************************************
+@riverpod
+class StarRole extends _$StarRole {
+  late SharedPreferences _prefs;
+
+  @override
+  bool build() {
+    _prefs = ref.watch(sharedPreferencesProvider);
+    bool status = _prefs.getBool('starRole') ?? false;
+    return status;
+  }
+
+  void toggle() {
+    state = !state;
+    _prefs.setBool('starRole', state);
+  }
+}
+
+// **************************************************************************
+// PlayerNames
+// **************************************************************************
+@riverpod
+class PlayerNames extends _$PlayerNames {
+  late SharedPreferences _prefs;
+
+  @override
+  List<String> build() {
+    _prefs = ref.watch(sharedPreferencesProvider);
+    List<String> players = _prefs.getStringList('lastPlayers') ?? [];
+    return players;
+  }
+
+  void addPlayer(String name) {
+    state = [...state, name];
+    _prefs.setStringList('lastPlayers', state);
+  }
+
+  void removePlayer(String name) {
+    state = [
+      for (final player in state)
+        if (player != name) player,
+    ];
+    _prefs.setStringList('lastPlayers', state);
+  }
+
+// void recoverLastPlayers() {
+//   List<String>? lastPlayers = _prefs.getStringList('lastPlayers');
+//   if (lastPlayers != null) state = lastPlayers;
+// }
+}
+
+// **************************************************************************
+// Mafias
+// **************************************************************************
+@riverpod
+class Mafias extends _$Mafias {
+  @override
+  List<Role> build() {
+    return Roles().mafia;
+  }
+
+  void addMafia(Role role) {
+    state = [...state, role];
+  }
+
+  void removeMafia(Role role) {
+    state = [
+      for (final item in state)
+        if (item.name != role.name) item,
+    ];
+  }
+}
+
+// **************************************************************************
+// Citizens
+// **************************************************************************
+@riverpod
+class Citizens extends _$Citizens {
+  @override
+  List<Role> build() {
+    return Roles().citizen;
+  }
+
+  void addCitizen(Role role) {
+    state = [...state, role];
+  }
+
+  void removeCitizen(Role role) {
+    state = [
+      for (final item in state)
+        if (item.name != role.name) item,
+    ];
+  }
+}
+
+// **************************************************************************
+// Independents
+// **************************************************************************
+@riverpod
+class Independents extends _$Independents {
+  @override
+  List<Role> build() {
+    return Roles().independent;
+  }
+
+  void addIndependent(Role role) {
+    state = [...state, role];
+  }
+
+  void removeIndependent(Role role) {
+    state = [
+      for (final item in state)
+        if (item.name != role.name) item,
+    ];
+  }
+}
+
+// **************************************************************************
+// SelectedMafia
+// **************************************************************************
+@riverpod
+class SelectedMafia extends _$SelectedMafia {
+  @override
+  int build() => 0;
+
+  void increment() => state++;
+
+  void decrement() => state--;
+}
+
+// **************************************************************************
+// SelectedCitizen
+// **************************************************************************
+@riverpod
+class SelectedCitizen extends _$SelectedCitizen {
+  @override
+  int build() => 0;
+
+  void increment() => state++;
+
+  void decrement() => state--;
+}
+
+// **************************************************************************
+// SelectedIndependent
+// **************************************************************************
+@riverpod
+class SelectedIndependent extends _$SelectedIndependent {
+  @override
+  int build() => 0;
+
+  void increment() => state++;
+
+  void decrement() => state--;
+}
+
+// **************************************************************************
+// Custom Role
+// **************************************************************************
+// @riverpod
+// class CustomRole extends _$CustomRole{
+//   late SharedPreferences _prefs;
+//
+//   @override
+//   List<Role> build() {
+//     var roles;
+//     _prefs = ref.watch(sharedPreferencesProvider);
+//     dynamic _customRolesTemp = _prefs.getString('customRoles') ?? 'Empty';
+//     if (_customRolesTemp.isNotEmpty) {
+//       _customRolesTemp = jsonDecode(_customRolesTemp);
+//       roles = _customRolesTemp.map((e) => Role.fromJson(e)).toList();
+//       roles.forEach((element) {
+//         element.type == 'M'
+//             ? _mafia.add(element)
+//             : element.type == 'C'
+//             ? _citizen.add(element)
+//             : _independent.add(element);
+//       });
+//     } else
+//       return [];
+//   }
+// }
+
+class RolesNPlayers {
+  // @override
+  // List<dynamic> build() {
+  //   initRNPSetting();
+  //   return [];
+  // }
+
+  // List<String> _players = [];
   late List<Role> _selectedRoles;
-  late List<Role> _mafia;
-  late List<Role> _citizen;
-  late List<Role> _independent;
-  late int _selectedMafia;
-  late int _selectedCitizen;
-  late int _selectedIndependent;
+
+  //late List<Role> _mafia;
+  // late List<Role> _citizen;
+  // late List<Role> _independent;
+
+  // late int _selectedMafia;
+  // late int _selectedCitizen;
+  // late int _selectedIndependent;
   late List<Player> _playersWithRole;
   late List<Player> _playersWithRoleFoShow;
   late int _day, _night;
   late int _alives;
   late SharedPreferences _prefs;
-  dynamic _limitLock = false;
-  late bool _starRole;
+
+  // late bool _limitLock = true;
+  // late bool _starRole = false;
   late List _customRoles;
   dynamic _customRolesTemp;
+
   get alive => _alives;
+
   get voteToJudge => _alives ~/ 2;
+
   get voteToDead => (_alives ~/ 2) + 1;
+
   get day => _day;
+
   get night => _night;
+
   get playersWithRolesFoShow => _playersWithRoleFoShow;
+
   get playersWithRoles => _playersWithRole;
-  get players => _players;
-  // get limitLock => _limitLock;
-  get mafia => _mafia;
-  get citizen => _citizen;
-  get independent => _independent;
+
+  // get players => _players;
+
+  // bool get limitLock => _limitLock;
+
+  // get mafia => _mafia;
+
+  // get citizen => _citizen;
+
+  // get independent => _independent;
+
   get selectedRoles => _selectedRoles;
-  // get starRole => _starRole;
+
+  // bool get starRole => _starRole;
+
   get customRoles => _customRoles;
+
   get selectedMafia => _selectedMafia;
+
   get selectedCitizen => _selectedCitizen;
+
   get selectedIndependent => _selectedIndependent;
 
   newGame() {
@@ -61,20 +289,20 @@ class RolesNPlayers extends _$RolesNPlayers {
     _selectedCitizen = 0;
     _selectedMafia = 0;
     _selectedIndependent = 0;
-    _mafia = roles.mafia;
-    _citizen = roles.citizen;
-    _independent = roles.independent;
+    //_mafia = roles.mafia;
+    // _citizen = roles.citizen;
+    // _independent = roles.independent;
   }
 
   initRNPSetting() async {
     newGame();
     _prefs = await SharedPreferences.getInstance();
-    _limitLock = (_prefs.getBool('limitLock') ?? true)
-        ? _limitLock = true
-        : _limitLock = false;
-    _starRole = (_prefs.getBool('starRole') ?? false)
-        ? _starRole = true
-        : _starRole = false;
+    // _limitLock = (_prefs.getBool('limitLock') ?? true)
+    //     ? _limitLock = true
+    //     : _limitLock = false;
+    // _starRole = (_prefs.getBool('starRole') ?? false)
+    //     ? _starRole = true
+    //     : _starRole = false;
     _customRolesTemp = _prefs.getString('customRoles') ?? 'Empty';
     if (_customRolesTemp != 'Empty') {
       _customRolesTemp = jsonDecode(_customRolesTemp);
@@ -83,32 +311,45 @@ class RolesNPlayers extends _$RolesNPlayers {
         element.type == 'M'
             ? _mafia.add(element)
             : element.type == 'C'
-            ? _citizen.add(element)
-            : _independent.add(element);
+                ? _citizen.add(element)
+                : _independent.add(element);
       });
     } else
       _customRoles = [];
-    recoverLastPlayers();
-      }
+    // recoverLastPlayers();
+  }
+
+  // set addPlayer(String name) {
+  //   _players.add(name);
+  // }
+  //
+  // set removePlayer(String name) {
+  //   _players.remove(name);
+  // }
+  //
+  // bool recoverLastPlayers() {
+  //   _players = _prefs.getStringList('lastPlayers') ?? [];
+  //   return _players.isNotEmpty;
+  // }
 
   set addCustomRole(Role role) {
     _customRoles.add(role);
     role.type == 'M'
         ? _mafia.add(role)
         : role.type == 'C'
-        ? _citizen.add(role)
-        : _independent.add(role);
-      }
+            ? _citizen.add(role)
+            : _independent.add(role);
+  }
 
   set removeCustomRole(Role role) {
     _customRoles.remove(role);
     role.type == 'M'
         ? _mafia.removeWhere((e) => e.name == role.name)
         : role.type == 'C'
-        ? _citizen.removeWhere((e) => e.name == role.name)
-        : _independent.removeWhere((e) => e.name == role.name);
+            ? _citizen.removeWhere((e) => e.name == role.name)
+            : _independent.removeWhere((e) => e.name == role.name);
     _selectedRoles.remove(role);
-      }
+  }
 
   set removeRole(Role role) {
     _selectedRoles.remove(role);
@@ -123,41 +364,34 @@ class RolesNPlayers extends _$RolesNPlayers {
       _selectedIndependent--;
       _independent.add(role);
     }
-      }
+  }
 
   set silentPlayer(index) {
     _playersWithRole[index].status =
-    _playersWithRole[index].status == 'silent' ? 'alive' : 'silent';
-      }
+        _playersWithRole[index].status == 'silent' ? 'alive' : 'silent';
+  }
 
   set killPlayer(index) {
     _playersWithRole[index].status =
-    _playersWithRole[index].status != 'dead' ? 'dead' : 'alive';
-      }
+        _playersWithRole[index].status != 'dead' ? 'dead' : 'alive';
+  }
 
   set judgePlayer(index) {
     _playersWithRole[index].status =
-    _playersWithRole[index].status == 'judge' ? 'alive' : 'judge';
-      }
+        _playersWithRole[index].status == 'judge' ? 'alive' : 'judge';
+  }
 
-  set limitLock(bool status) {
-    _limitLock = status;
-    if (status == true) _starRole = false;
-    _prefs.setBool('limitLock', _limitLock);
-      }
+  // set limitLock(bool status) {
+  //   print("limit lockkkkkkkkkkkkk $status");
+  //   _limitLock = status;
+  //   if (status == true) _starRole = false;
+  //   _prefs.setBool('limitLock', _limitLock);
+  // }
 
-  set starRole(bool status) {
-    _starRole = status;
-    _prefs.setBool('starRole', _starRole);
-      }
-
-  set addPlayer(String name) {
-    _players.add(name);
-      }
-
-  set removePlayer(String name) {
-    _players.remove(name);
-      }
+  // set starRole(bool status) {
+  //   _starRole = status;
+  //   _prefs.setBool('starRole', _starRole);
+  // }
 
   set addRole(Role role) {
     if (_players.length > _selectedRoles.length) {
@@ -189,8 +423,8 @@ class RolesNPlayers extends _$RolesNPlayers {
         role.type == 'M'
             ? _mafia.removeWhere((e) => e.name == role.name)
             : role.type == 'C'
-            ? _citizen.removeWhere((e) => e.name == role.name)
-            : _independent.removeWhere((e) => e.name == role.name);
+                ? _citizen.removeWhere((e) => e.name == role.name)
+                : _independent.removeWhere((e) => e.name == role.name);
 
         if (_starRole && !role.name.contains('⭐⭐⭐')) {
           Role newStarRole = role.copyWith();
@@ -210,7 +444,7 @@ class RolesNPlayers extends _$RolesNPlayers {
           }
         }
       }
-          }
+    }
   }
 
   saveCustomRoles() {
@@ -254,7 +488,7 @@ class RolesNPlayers extends _$RolesNPlayers {
             name: _players[i], status: 'alive', role: _selectedRoles[i]));
       }
       _playersWithRoleFoShow = List.from(_playersWithRole);
-          }
+    }
   }
 
   recoverLastRoles() {
@@ -266,29 +500,24 @@ class RolesNPlayers extends _$RolesNPlayers {
       for (String role in _lastRoles!)
         if (!role.contains('⭐')) addRole = roles.find(role);
     }
-      }
+  }
 
   saveRoles() async {
     await _prefs.setStringList(
         'lastRoles', _selectedRoles.map((e) => e.name).toList());
   }
 
-  savePlayers() async => await _prefs.setStringList('lastPlayers', _players);
-
-  bool recoverLastPlayers() {
-    _players = _prefs.getStringList('lastPlayers') ?? [];
-        return _players.isNotEmpty;
-  }
+  // savePlayers() async => await _prefs.setStringList('lastPlayers', _players);
 
   playGame() {
     _day = 1;
     _night = 1;
     _sortPlayer();
-      }
+  }
 
   startDay() {
     _night++;
-      }
+  }
 
   startVoting() {
     if (_day > 1) _playersWithRole.shuffle();
@@ -297,7 +526,7 @@ class RolesNPlayers extends _$RolesNPlayers {
       if (element.status != 'dead') _alives++;
     });
     _day++;
-      }
+  }
 
   startNight() {
     _sortPlayer();
@@ -317,8 +546,8 @@ class RolesNPlayers extends _$RolesNPlayers {
         element.role.type == 'M'
             ? _tAliveMafia++
             : element.role.type == 'C'
-            ? _tAliveCitizen++
-            : _tAliveIndependent++;
+                ? _tAliveCitizen++
+                : _tAliveIndependent++;
       }
     });
     if (_tAliveMafia >= _tAliveCitizen)

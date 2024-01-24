@@ -47,10 +47,10 @@ class HelpRolesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final rNPProviderListener = ref.read(rolesNPlayersProvider.notifier);
-    List mafia = rNPProviderListener.mafia;
-    List citizen = rNPProviderListener.citizen;
-    List independent = rNPProviderListener.independent;
+    // final rNPProviderListener = ref.read(rolesNPlayersProvider.notifier);
+    List mafia = [];//rNPProviderListener.mafia;
+    List citizen = [];//rNPProviderListener.citizen;
+    List independent = [];//rNPProviderListener.independent;
 
     Widget roleGridView({required List roles}) {
       return GridView.count(

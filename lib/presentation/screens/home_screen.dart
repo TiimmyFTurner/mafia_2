@@ -107,11 +107,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       "تنظیمات",
                       style: TextStyle(fontSize: 23),
                     ),
-                    onPressed: () {
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(builder: (context) => Setting()),
-                      // );
-                    },
+                    onPressed: () => context.pushNamed('settings'),
                   ),
                 ),
                 const SizedBox(height: 28),
