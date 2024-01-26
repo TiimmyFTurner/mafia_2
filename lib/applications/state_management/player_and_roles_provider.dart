@@ -302,8 +302,6 @@ class CustomRole extends _$CustomRole {
 // **************************************************************************
 @riverpod
 class SelectedRoles extends _$SelectedRoles {
-  late SharedPreferences _prefs;
-
   @override
   List<Role> build() {
     return [];
@@ -315,44 +313,42 @@ class SelectedRoles extends _$SelectedRoles {
         if (item.name != role.name) item,
     ];
     if (role.type == 'M') {
-      ref.read(mafiasProvider.notifier).removeMafia(role);
+      ref.read(mafiasProvider.notifier).addMafia(role);
       ref.read(selectedMafiaProvider.notifier).decrement();
     } else if (role.type == 'C') {
-      ref.read(citizensProvider.notifier).removeCitizen(role);
+      ref.read(citizensProvider.notifier).addCitizen(role);
       ref.read(selectedCitizenProvider.notifier).decrement();
     } else {
-      ref.read(independentsProvider.notifier).removeIndependent(role);
+      ref.read(independentsProvider.notifier).addIndependent(role);
       ref.read(selectedCitizenProvider.notifier).decrement();
       ref.read(selectedIndependentProvider.notifier).decrement();
     }
   }
 
-  addRole(Role role) {
-    List players = ref.watch(playerNamesProvider);
-    List selectedRoles = ref.watch(selectedRolesProvider);
-    int selectedMafia = ref.watch(selectedMafiaProvider);
-    int selectedCitizen = ref.watch(selectedCitizenProvider);
-
-    if (players.length > selectedRoles.length) {
-      if (ref.watch(limitLockProvider)) {
+  void addRole(Role role) {
+    List players = ref.read(playerNamesProvider);
+    int selectedMafia = ref.read(selectedMafiaProvider);
+    int selectedCitizen = ref.read(selectedCitizenProvider);
+    if (players.length > state.length) {
+      if (ref.read(limitLockProvider)) {
         if (role.type == 'M' && selectedMafia < players.length ~/ 3) {
-          ref.read(selectedRolesProvider.notifier).addRole(role);
+          state = [...state, role];
           ref.read(selectedMafiaProvider.notifier).increment();
           ref.read(mafiasProvider.notifier).removeMafia(role);
         } else if (role.type == 'C' &&
             selectedCitizen < players.length - (players.length ~/ 3)) {
-          ref.read(selectedRolesProvider.notifier).addRole(role);
+          state = [...state, role];
           ref.read(selectedCitizenProvider.notifier).increment();
           ref.read(citizensProvider.notifier).removeCitizen(role);
         } else if (role.type == "I" &&
             selectedCitizen < players.length - (players.length ~/ 3)) {
-          ref.read(selectedRolesProvider.notifier).addRole(role);
+          state = [...state, role];
           ref.read(selectedCitizenProvider.notifier).increment();
           ref.read(selectedIndependentProvider.notifier).increment();
           ref.read(independentsProvider.notifier).removeIndependent(role);
         }
       } else {
-        ref.read(selectedRolesProvider.notifier).addRole(role);
+        state = [...state, role];
         if (role.type == 'M') {
           ref.read(selectedMafiaProvider.notifier).increment();
         } else {
@@ -369,26 +365,24 @@ class SelectedRoles extends _$SelectedRoles {
                     .read(independentsProvider.notifier)
                     .removeIndependent(role);
 
-        if (ref.watch(starRoleProvider) && !role.name.contains('⭐⭐⭐')) {
+        if (ref.read(starRoleProvider) && !role.name.contains('⭐⭐⭐')) {
           Role newStarRole = role.copyWith();
           newStarRole.name += newStarRole.name.contains('⭐') ? '⭐' : ' ⭐';
           //check if the new star role is not already created
-          if (!ref
-              .watch(selectedRolesProvider)
-              .any((item) => item.name == newStarRole.name)) {
+          if (!state.any((item) => item.name == newStarRole.name)) {
             if (newStarRole.type == 'M' &&
                 !ref
-                    .watch(mafiasProvider)
+                    .read(mafiasProvider)
                     .any((item) => item.name == newStarRole.name)) {
               ref.read(mafiasProvider.notifier).addMafia(newStarRole);
             } else if (newStarRole.type == 'C' &&
                 !ref
-                    .watch(citizensProvider)
+                    .read(citizensProvider)
                     .any((item) => item.name == newStarRole.name)) {
               ref.read(citizensProvider.notifier).addCitizen(newStarRole);
             } else if (newStarRole.type == 'I' &&
                 !ref
-                    .watch(independentsProvider)
+                    .read(independentsProvider)
                     .any((item) => item.name == newStarRole.name)) {
               ref
                   .read(independentsProvider.notifier)
@@ -406,8 +400,6 @@ class SelectedRoles extends _$SelectedRoles {
 // **************************************************************************
 @riverpod
 class Players extends _$Players {
-  late SharedPreferences _prefs;
-
   @override
   List<Player> build() {
     return [];
@@ -519,11 +511,7 @@ String winnerCheck(WinnerCheckRef ref) {
   return '';
 }
 
-
-
-
-
-  //TODO:IMPLEMENT THESE IN RIVERPOD
+//TODO:IMPLEMENT THESE IN RIVERPOD
 
 // newGame() {
 // Roles roles = Roles();
@@ -538,45 +526,44 @@ String winnerCheck(WinnerCheckRef ref) {
 // _independent = roles.independent;
 // }
 
-  // saveRoles() async {
-  //   await _prefs.setStringList(
-  //       'lastRoles', _selectedRoles.map((e) => e.name).toList());
-  // }
-  // recoverLastRoles() {
-  //   Roles roles = Roles();
-  //   var lastRoles = _prefs.getStringList('lastRoles');
-  //   if (lastRoles?.length != 0) {
-  //     for (Role _selectedRole in List.from(_selectedRoles))
-  //       if (!_selectedRole.name.contains('⭐')) removeRole = _selectedRole;
-  //     for (String role in lastRoles!)
-  //       if (!role.contains('⭐')) addRole = roles.find(role);
-  //   }
-  // }
-  //
-  //
-  // playGame() {
-  //   _day = 1;
-  //   _night = 1;
-  //   _sortPlayer();
-  // }
-  //
-  // startDay() {
-  //   _night++;
-  // }
-  //
-  // startVoting() {
-  //   if (_day > 1) _playersWithRole.shuffle();
-  //   _alives = 0;
-  //   _playersWithRole.forEach((element) {
-  //     if (element.status != 'dead') _alives++;
-  //   });
-  //   _day++;
-  // }
-  //
-  // startNight() {
-  //   _sortPlayer();
-  // }
-  //
-  // _sortPlayer() =>
-  //     _playersWithRole.sort((p1, p2) => p1.role.order.compareTo(p2.role.order));
-
+// saveRoles() async {
+//   await _prefs.setStringList(
+//       'lastRoles', _selectedRoles.map((e) => e.name).toList());
+// }
+// recoverLastRoles() {
+//   Roles roles = Roles();
+//   var lastRoles = _prefs.getStringList('lastRoles');
+//   if (lastRoles?.length != 0) {
+//     for (Role _selectedRole in List.from(_selectedRoles))
+//       if (!_selectedRole.name.contains('⭐')) removeRole = _selectedRole;
+//     for (String role in lastRoles!)
+//       if (!role.contains('⭐')) addRole = roles.find(role);
+//   }
+// }
+//
+//
+// playGame() {
+//   _day = 1;
+//   _night = 1;
+//   _sortPlayer();
+// }
+//
+// startDay() {
+//   _night++;
+// }
+//
+// startVoting() {
+//   if (_day > 1) _playersWithRole.shuffle();
+//   _alives = 0;
+//   _playersWithRole.forEach((element) {
+//     if (element.status != 'dead') _alives++;
+//   });
+//   _day++;
+// }
+//
+// startNight() {
+//   _sortPlayer();
+// }
+//
+// _sortPlayer() =>
+//     _playersWithRole.sort((p1, p2) => p1.role.order.compareTo(p2.role.order));

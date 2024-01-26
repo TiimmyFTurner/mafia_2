@@ -110,10 +110,7 @@ class _SetPlayersScreenState extends ConsumerState<SetPlayersScreen> {
                   ),
                   onPressed: () {
                     if (players.length > 2) {
-                      //TODO:IMPLEMENT WHEN SET ROLE PAGE IS CREATED
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(builder: (_) => SetRoles()),
-                      // );
+                      context.pushNamed('setRoles');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(

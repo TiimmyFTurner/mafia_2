@@ -241,7 +241,7 @@ final customRoleProvider =
 );
 
 typedef _$CustomRole = AutoDisposeNotifier<List<Role>>;
-String _$selectedRolesHash() => r'a156f51c7a84054afc6dba1010c7e632853b98cd';
+String _$selectedRolesHash() => r'fadf20ed06bc7de9cb90e309b38199f6a0f214ef';
 
 /// See also [SelectedRoles].
 @ProviderFor(SelectedRoles)
@@ -257,7 +257,7 @@ final selectedRolesProvider =
 );
 
 typedef _$SelectedRoles = AutoDisposeNotifier<List<Role>>;
-String _$playersHash() => r'6d8738cb8e96adf6168c374475a019abad4f408e';
+String _$playersHash() => r'8a23a76c70db9213773bc84191a2f0928d1d627c';
 
 /// See also [Players].
 @ProviderFor(Players)

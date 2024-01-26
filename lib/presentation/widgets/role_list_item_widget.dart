@@ -7,7 +7,7 @@ class RoleListItemWidget extends StatefulWidget {
   const RoleListItemWidget(this._role, {super.key});
 
   @override
-  _RoleListItemWidgetState createState() => _RoleListItemWidgetState();
+  State createState() => _RoleListItemWidgetState();
 }
 
 class _RoleListItemWidgetState extends State<RoleListItemWidget> {
