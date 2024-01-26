@@ -21,9 +21,9 @@ class Mafia2App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme defaultLightColorScheme =
-        ColorScheme.fromSeed(seedColor: Colors.teal);
+        ColorScheme.fromSeed(seedColor: Colors.tealAccent);
     final ColorScheme defaultDarkColorScheme = ColorScheme.fromSeed(
-        seedColor: Colors.teal, brightness: Brightness.dark);
+        seedColor: Colors.tealAccent, brightness: Brightness.dark);
     return DynamicColorBuilder(
       builder: (lightColorScheme, darkColorScheme) {
         return MaterialApp.router(
