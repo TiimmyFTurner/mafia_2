@@ -191,372 +191,392 @@ class SelectedIndependent extends _$SelectedIndependent {
 }
 
 // **************************************************************************
+// Alive
+// **************************************************************************
+@riverpod
+class Alive extends _$SelectedIndependent {
+  @override
+  int build() => 0;
+
+  void increment() => state++;
+
+  void decrement() => state--;
+}
+
+// **************************************************************************
+// voteToJudge
+// **************************************************************************
+@riverpod
+int voteToJudge(VoteToJudgeRef ref) {
+  final alive = ref.watch(aliveProvider);
+  return alive ~/ 2;
+}
+
+// **************************************************************************
+// voteToDead
+// **************************************************************************
+@riverpod
+int voteToDead(VoteToDeadRef ref) {
+  final alive = ref.watch(aliveProvider);
+  return (alive ~/ 2) + 1;
+}
+
+// **************************************************************************
+// Day
+// **************************************************************************
+@riverpod
+class Day extends _$Day {
+  @override
+  int build() => 0;
+
+  void increment() => state++;
+}
+
+// **************************************************************************
+// Night
+// **************************************************************************
+@riverpod
+class Night extends _$Night {
+  @override
+  int build() => 0;
+
+  void increment() => state++;
+}
+
+// **************************************************************************
 // Custom Role
 // **************************************************************************
-// @riverpod
-// class CustomRole extends _$CustomRole{
-//   late SharedPreferences _prefs;
-//
-//   @override
-//   List<Role> build() {
-//     var roles;
-//     _prefs = ref.watch(sharedPreferencesProvider);
-//     dynamic _customRolesTemp = _prefs.getString('customRoles') ?? 'Empty';
-//     if (_customRolesTemp.isNotEmpty) {
-//       _customRolesTemp = jsonDecode(_customRolesTemp);
-//       roles = _customRolesTemp.map((e) => Role.fromJson(e)).toList();
-//       roles.forEach((element) {
-//         element.type == 'M'
-//             ? _mafia.add(element)
-//             : element.type == 'C'
-//             ? _citizen.add(element)
-//             : _independent.add(element);
-//       });
-//     } else
-//       return [];
-//   }
-// }
-
-class RolesNPlayers {
-  // @override
-  // List<dynamic> build() {
-  //   initRNPSetting();
-  //   return [];
-  // }
-
-  // List<String> _players = [];
-  late List<Role> _selectedRoles;
-
-  //late List<Role> _mafia;
-  // late List<Role> _citizen;
-  // late List<Role> _independent;
-
-  // late int _selectedMafia;
-  // late int _selectedCitizen;
-  // late int _selectedIndependent;
-  late List<Player> _playersWithRole;
-  late List<Player> _playersWithRoleFoShow;
-  late int _day, _night;
-  late int _alives;
+@riverpod
+class CustomRole extends _$CustomRole {
   late SharedPreferences _prefs;
 
-  // late bool _limitLock = true;
-  // late bool _starRole = false;
-  late List _customRoles;
-  dynamic _customRolesTemp;
-
-  get alive => _alives;
-
-  get voteToJudge => _alives ~/ 2;
-
-  get voteToDead => (_alives ~/ 2) + 1;
-
-  get day => _day;
-
-  get night => _night;
-
-  get playersWithRolesFoShow => _playersWithRoleFoShow;
-
-  get playersWithRoles => _playersWithRole;
-
-  // get players => _players;
-
-  // bool get limitLock => _limitLock;
-
-  // get mafia => _mafia;
-
-  // get citizen => _citizen;
-
-  // get independent => _independent;
-
-  get selectedRoles => _selectedRoles;
-
-  // bool get starRole => _starRole;
-
-  get customRoles => _customRoles;
-
-  get selectedMafia => _selectedMafia;
-
-  get selectedCitizen => _selectedCitizen;
-
-  get selectedIndependent => _selectedIndependent;
-
-  newGame() {
-    Roles roles = Roles();
-    _selectedRoles = [];
-    _playersWithRole = [];
-    _playersWithRoleFoShow = [];
-    _selectedCitizen = 0;
-    _selectedMafia = 0;
-    _selectedIndependent = 0;
-    //_mafia = roles.mafia;
-    // _citizen = roles.citizen;
-    // _independent = roles.independent;
-  }
-
-  initRNPSetting() async {
-    newGame();
-    _prefs = await SharedPreferences.getInstance();
-    // _limitLock = (_prefs.getBool('limitLock') ?? true)
-    //     ? _limitLock = true
-    //     : _limitLock = false;
-    // _starRole = (_prefs.getBool('starRole') ?? false)
-    //     ? _starRole = true
-    //     : _starRole = false;
-    _customRolesTemp = _prefs.getString('customRoles') ?? 'Empty';
-    if (_customRolesTemp != 'Empty') {
-      _customRolesTemp = jsonDecode(_customRolesTemp);
-      _customRoles = _customRolesTemp.map((e) => Role.fromJson(e)).toList();
-      _customRoles.forEach((element) {
+  @override
+  List<Role> build() {
+    List<Role> roles;
+    _prefs = ref.watch(sharedPreferencesProvider);
+    dynamic temp = _prefs.getString('customRoles');
+    if (temp.isNotEmpty) {
+      temp = jsonDecode(temp);
+      roles = temp.map((e) => Role.fromJson(e)).toList();
+      for (var element in roles) {
         element.type == 'M'
-            ? _mafia.add(element)
+            ? ref.read(mafiasProvider.notifier).addMafia(element)
             : element.type == 'C'
-                ? _citizen.add(element)
-                : _independent.add(element);
-      });
-    } else
-      _customRoles = [];
-    // recoverLastPlayers();
-  }
-
-  // set addPlayer(String name) {
-  //   _players.add(name);
-  // }
-  //
-  // set removePlayer(String name) {
-  //   _players.remove(name);
-  // }
-  //
-  // bool recoverLastPlayers() {
-  //   _players = _prefs.getStringList('lastPlayers') ?? [];
-  //   return _players.isNotEmpty;
-  // }
-
-  set addCustomRole(Role role) {
-    _customRoles.add(role);
-    role.type == 'M'
-        ? _mafia.add(role)
-        : role.type == 'C'
-            ? _citizen.add(role)
-            : _independent.add(role);
-  }
-
-  set removeCustomRole(Role role) {
-    _customRoles.remove(role);
-    role.type == 'M'
-        ? _mafia.removeWhere((e) => e.name == role.name)
-        : role.type == 'C'
-            ? _citizen.removeWhere((e) => e.name == role.name)
-            : _independent.removeWhere((e) => e.name == role.name);
-    _selectedRoles.remove(role);
-  }
-
-  set removeRole(Role role) {
-    _selectedRoles.remove(role);
-    if (role.type == 'M') {
-      _mafia.add(role);
-      _selectedMafia--;
-    } else if (role.type == 'C') {
-      _selectedCitizen--;
-      _citizen.add(role);
+                ? ref.read(citizensProvider.notifier).addCitizen(element)
+                : ref
+                    .read(independentsProvider.notifier)
+                    .addIndependent(element);
+      }
+      return roles;
     } else {
-      _selectedCitizen--;
-      _selectedIndependent--;
-      _independent.add(role);
+      return [];
     }
   }
 
-  set silentPlayer(index) {
-    _playersWithRole[index].status =
-        _playersWithRole[index].status == 'silent' ? 'alive' : 'silent';
+  void addCustomRole(Role role) {
+    state = [...state, role];
+    role.type == 'M'
+        ? ref.read(mafiasProvider.notifier).addMafia(role)
+        : role.type == 'C'
+            ? ref.read(citizensProvider.notifier).addCitizen(role)
+            : ref.read(independentsProvider.notifier).addIndependent(role);
   }
 
-  set killPlayer(index) {
-    _playersWithRole[index].status =
-        _playersWithRole[index].status != 'dead' ? 'dead' : 'alive';
+  void removeCustomRole(Role role) {
+    state = [
+      for (final item in state)
+        if (item.name != role.name) item,
+    ];
+    role.type == 'M'
+        ? ref.read(mafiasProvider.notifier).removeMafia(role)
+        : role.type == 'C'
+            ? ref.read(citizensProvider.notifier).removeCitizen(role)
+            : ref.read(independentsProvider.notifier).removeIndependent(role);
+    //TODO:Fix when selectedRoles provider is created
+    // _selectedRoles.remove(role);
+  }
+}
+
+// **************************************************************************
+// SelectedRoles
+// **************************************************************************
+@riverpod
+class SelectedRoles extends _$SelectedRoles {
+  late SharedPreferences _prefs;
+
+  @override
+  List<Role> build() {
+    return [];
   }
 
-  set judgePlayer(index) {
-    _playersWithRole[index].status =
-        _playersWithRole[index].status == 'judge' ? 'alive' : 'judge';
+  void removeRole(Role role) {
+    state = [
+      for (final item in state)
+        if (item.name != role.name) item,
+    ];
+    if (role.type == 'M') {
+      ref.read(mafiasProvider.notifier).removeMafia(role);
+      ref.read(selectedMafiaProvider.notifier).decrement();
+    } else if (role.type == 'C') {
+      ref.read(citizensProvider.notifier).removeCitizen(role);
+      ref.read(selectedCitizenProvider.notifier).decrement();
+    } else {
+      ref.read(independentsProvider.notifier).removeIndependent(role);
+      ref.read(selectedCitizenProvider.notifier).decrement();
+      ref.read(selectedIndependentProvider.notifier).decrement();
+    }
   }
 
-  // set limitLock(bool status) {
-  //   print("limit lockkkkkkkkkkkkk $status");
-  //   _limitLock = status;
-  //   if (status == true) _starRole = false;
-  //   _prefs.setBool('limitLock', _limitLock);
-  // }
+  addRole(Role role) {
+    List players = ref.watch(playerNamesProvider);
+    List selectedRoles = ref.watch(selectedRolesProvider);
+    int selectedMafia = ref.watch(selectedMafiaProvider);
+    int selectedCitizen = ref.watch(selectedCitizenProvider);
 
-  // set starRole(bool status) {
-  //   _starRole = status;
-  //   _prefs.setBool('starRole', _starRole);
-  // }
-
-  set addRole(Role role) {
-    if (_players.length > _selectedRoles.length) {
-      if (_limitLock) {
-        if (role.type == 'M' && _selectedMafia < _players.length ~/ 3) {
-          _selectedRoles.add(role);
-          _selectedMafia++;
-          _mafia.removeWhere((e) => e.name == role.name);
+    if (players.length > selectedRoles.length) {
+      if (ref.watch(limitLockProvider)) {
+        if (role.type == 'M' && selectedMafia < players.length ~/ 3) {
+          ref.read(selectedRolesProvider.notifier).addRole(role);
+          ref.read(selectedMafiaProvider.notifier).increment();
+          ref.read(mafiasProvider.notifier).removeMafia(role);
         } else if (role.type == 'C' &&
-            _selectedCitizen < _players.length - (_players.length ~/ 3)) {
-          _selectedRoles.add(role);
-          _selectedCitizen++;
-          _citizen.removeWhere((e) => e.name == role.name);
+            selectedCitizen < players.length - (players.length ~/ 3)) {
+          ref.read(selectedRolesProvider.notifier).addRole(role);
+          ref.read(selectedCitizenProvider.notifier).increment();
+          ref.read(citizensProvider.notifier).removeCitizen(role);
         } else if (role.type == "I" &&
-            _selectedCitizen < _players.length - (_players.length ~/ 3)) {
-          _selectedRoles.add(role);
-          _selectedCitizen++;
-          _selectedIndependent++;
-          _independent.removeWhere((e) => e.name == role.name);
+            selectedCitizen < players.length - (players.length ~/ 3)) {
+          ref.read(selectedRolesProvider.notifier).addRole(role);
+          ref.read(selectedCitizenProvider.notifier).increment();
+          ref.read(selectedIndependentProvider.notifier).increment();
+          ref.read(independentsProvider.notifier).removeIndependent(role);
         }
       } else {
-        _selectedRoles.add(role);
-        if (role.type == 'M')
-          _selectedMafia++;
-        else {
-          _selectedCitizen++;
-          if (role.type == 'I') _selectedIndependent++;
+        ref.read(selectedRolesProvider.notifier).addRole(role);
+        if (role.type == 'M') {
+          ref.read(selectedMafiaProvider.notifier).increment();
+        } else {
+          ref.read(selectedCitizenProvider.notifier).increment();
+          if (role.type == 'I') {
+            ref.read(selectedIndependentProvider.notifier).increment();
+          }
         }
         role.type == 'M'
-            ? _mafia.removeWhere((e) => e.name == role.name)
+            ? ref.read(mafiasProvider.notifier).removeMafia(role)
             : role.type == 'C'
-                ? _citizen.removeWhere((e) => e.name == role.name)
-                : _independent.removeWhere((e) => e.name == role.name);
+                ? ref.read(citizensProvider.notifier).removeCitizen(role)
+                : ref
+                    .read(independentsProvider.notifier)
+                    .removeIndependent(role);
 
-        if (_starRole && !role.name.contains('⭐⭐⭐')) {
+        if (ref.watch(starRoleProvider) && !role.name.contains('⭐⭐⭐')) {
           Role newStarRole = role.copyWith();
           newStarRole.name += newStarRole.name.contains('⭐') ? '⭐' : ' ⭐';
-          //check if the new star role is not alredy created
-          if (!_selectedRoles.any((item) => item.name == newStarRole.name)) {
+          //check if the new star role is not already created
+          if (!ref
+              .watch(selectedRolesProvider)
+              .any((item) => item.name == newStarRole.name)) {
             if (newStarRole.type == 'M' &&
-                !_mafia.any((item) => item.name == newStarRole.name)) {
-              mafia.add(newStarRole);
+                !ref
+                    .watch(mafiasProvider)
+                    .any((item) => item.name == newStarRole.name)) {
+              ref.read(mafiasProvider.notifier).addMafia(newStarRole);
             } else if (newStarRole.type == 'C' &&
-                !_citizen.any((item) => item.name == newStarRole.name)) {
-              _citizen.add(newStarRole);
+                !ref
+                    .watch(citizensProvider)
+                    .any((item) => item.name == newStarRole.name)) {
+              ref.read(citizensProvider.notifier).addCitizen(newStarRole);
             } else if (newStarRole.type == 'I' &&
-                !_independent.any((item) => item.name == newStarRole.name)) {
-              _independent.add(newStarRole);
+                !ref
+                    .watch(independentsProvider)
+                    .any((item) => item.name == newStarRole.name)) {
+              ref
+                  .read(independentsProvider.notifier)
+                  .addIndependent(newStarRole);
             }
           }
         }
       }
     }
   }
+}
 
-  saveCustomRoles() {
-    _customRoles == null
-        ? _customRolesTemp = null
-        : _customRolesTemp = _customRoles.map((e) => e.toMap()).toList();
-    _prefs.setString('customRoles', jsonEncode(_customRolesTemp));
+// **************************************************************************
+// Players
+// **************************************************************************
+@riverpod
+class Players extends _$Players {
+  late SharedPreferences _prefs;
+
+  @override
+  List<Player> build() {
+    return [];
   }
 
   setPlayers() {
-    if (_players.length != _selectedRoles.length) {
-      while (_selectedMafia < _players.length ~/ 3 &&
-          _selectedRoles.length < _players.length) {
-        _selectedRoles.add(
-          Role(
-              name: 'مافیا',
-              type: 'M',
-              order: 19,
-              job: "یک مافیای ساده که عملکرد خاصی ندارد"),
-        );
-        _selectedMafia++;
+    List playerNames = ref.watch(playerNamesProvider);
+
+    if (playerNames.length != ref.watch(selectedRolesProvider).length) {
+      while (ref.read(selectedMafiaProvider) < playerNames.length ~/ 3 &&
+          ref.watch(selectedRolesProvider).length < playerNames.length) {
+        ref.read(selectedRolesProvider.notifier).addRole(
+              Role(
+                  name: 'مافیا',
+                  type: 'M',
+                  order: 19,
+                  job: "یک مافیای ساده که عملکرد خاصی ندارد"),
+            );
+        ref.read(selectedMafiaProvider.notifier).increment();
+        // _selectedMafia++;
       }
-      while (_selectedCitizen < _players.length - (_players.length ~/ 3) &&
-          _selectedRoles.length < _players.length) {
-        _selectedRoles.add(
-          Role(
-              name: 'شهروند',
-              type: 'C',
-              order: 49,
-              job: "شهروند عادی ک در شب نقشی ندارد"),
-        );
-        _selectedCitizen++;
+      while (ref.watch(selectedCitizenProvider) <
+              playerNames.length - (playerNames.length ~/ 3) &&
+          ref.watch(selectedRolesProvider).length < playerNames.length) {
+        ref.read(selectedRolesProvider.notifier).addRole(
+              Role(
+                  name: 'شهروند',
+                  type: 'C',
+                  order: 49,
+                  job: "شهروند عادی ک در شب نقشی ندارد"),
+            );
+        ref.read(selectedCitizenProvider.notifier).increment();
       }
     }
-    if (_players.length == _selectedRoles.length) {
-      _playersWithRole.clear();
-      _players.shuffle();
-      _selectedRoles.shuffle();
-      for (var i = 0; i < _players.length; i++) {
-        _playersWithRole.add(Player(
-            name: _players[i], status: 'alive', role: _selectedRoles[i]));
+    if (playerNames.length == ref.watch(selectedRolesProvider).length) {
+      state = [];
+      List selectedRoles = ref.watch(selectedRolesProvider);
+      playerNames.shuffle();
+      selectedRoles.shuffle();
+      for (var i = 0; i < playerNames.length; i++) {
+        // final player
+        state = [
+          ...state,
+          Player(
+              name: playerNames[i],
+              status: 'alive',
+              role: ref.watch(selectedRolesProvider)[i])
+        ];
       }
-      _playersWithRoleFoShow = List.from(_playersWithRole);
+      // _playersWithRoleFoShow = List.from(_playersWithRole);
     }
   }
 
-  recoverLastRoles() {
-    Roles roles = Roles();
-    var _lastRoles = _prefs.getStringList('lastRoles');
-    if (_lastRoles?.length != 0) {
-      for (Role _selectedRole in List.from(_selectedRoles))
-        if (!_selectedRole.name.contains('⭐')) removeRole = _selectedRole;
-      for (String role in _lastRoles!)
-        if (!role.contains('⭐')) addRole = roles.find(role);
-    }
+  void silentPlayer(String playerName) {
+    state = [
+      for (final player in state)
+        if (player.name == playerName)
+          player.copyWith(
+              status: player.status == 'silent' ? 'alive' : 'silent')
+        else
+          player
+    ];
   }
 
-  saveRoles() async {
-    await _prefs.setStringList(
-        'lastRoles', _selectedRoles.map((e) => e.name).toList());
+  void killPlayer(String playerName) {
+    state = [
+      for (final player in state)
+        if (player.name == playerName)
+          player.copyWith(status: player.status != 'dead' ? 'dead' : 'alive')
+        else
+          player
+    ];
   }
 
-  // savePlayers() async => await _prefs.setStringList('lastPlayers', _players);
-
-  playGame() {
-    _day = 1;
-    _night = 1;
-    _sortPlayer();
-  }
-
-  startDay() {
-    _night++;
-  }
-
-  startVoting() {
-    if (_day > 1) _playersWithRole.shuffle();
-    _alives = 0;
-    _playersWithRole.forEach((element) {
-      if (element.status != 'dead') _alives++;
-    });
-    _day++;
-  }
-
-  startNight() {
-    _sortPlayer();
-  }
-
-  _sortPlayer() =>
-      _playersWithRole.sort((p1, p2) => p1.role.order.compareTo(p2.role.order));
-
-  String winnerCheck() {
-    int _tAlive = 0,
-        _tAliveCitizen = 0,
-        _tAliveMafia = 0,
-        _tAliveIndependent = 0;
-    _playersWithRole.forEach((element) {
-      if (element.status != 'dead') {
-        _tAlive++;
-        element.role.type == 'M'
-            ? _tAliveMafia++
-            : element.role.type == 'C'
-                ? _tAliveCitizen++
-                : _tAliveIndependent++;
-      }
-    });
-    if (_tAliveMafia >= _tAliveCitizen)
-      return 'M';
-    else if (_tAlive < 4 && _tAliveIndependent > 0)
-      return 'I';
-    else if (_tAliveMafia == 0)
-      return 'C';
-    else
-      return '';
+  void judgePlayer(String playerName) {
+    state = [
+      for (final player in state)
+        if (player.name == playerName)
+          player.copyWith(status: player.status == 'judge' ? 'alive' : 'judge')
+        else
+          player
+    ];
   }
 }
+
+// **************************************************************************
+// winnerCheck
+// **************************************************************************
+@riverpod
+String winnerCheck(WinnerCheckRef ref) {
+  int tAlive = 0, tAliveCitizen = 0, tAliveMafia = 0, tAliveIndependent = 0;
+  ref.watch(playersProvider).forEach((element) {
+    if (element.status != 'dead') {
+      tAlive++;
+      element.role.type == 'M'
+          ? tAliveMafia++
+          : element.role.type == 'C'
+              ? tAliveCitizen++
+              : tAliveIndependent++;
+    }
+  });
+  if (tAliveMafia >= tAliveCitizen) {
+    return 'M';
+  } else if (tAlive < 4 && tAliveIndependent > 0) {
+    return 'I';
+  } else if (tAliveMafia == 0) {
+    return 'C';
+  }
+  return '';
+}
+
+
+
+
+
+  //TODO:IMPLEMENT THESE IN RIVERPOD
+
+// newGame() {
+// Roles roles = Roles();
+// _selectedRoles = [];
+// _playersWithRole = [];
+// _playersWithRoleFoShow = [];
+// _selectedCitizen = 0;
+// _selectedMafia = 0;
+// _selectedIndependent = 0;
+//_mafia = roles.mafia;
+// _citizen = roles.citizen;
+// _independent = roles.independent;
+// }
+
+  // saveRoles() async {
+  //   await _prefs.setStringList(
+  //       'lastRoles', _selectedRoles.map((e) => e.name).toList());
+  // }
+  // recoverLastRoles() {
+  //   Roles roles = Roles();
+  //   var lastRoles = _prefs.getStringList('lastRoles');
+  //   if (lastRoles?.length != 0) {
+  //     for (Role _selectedRole in List.from(_selectedRoles))
+  //       if (!_selectedRole.name.contains('⭐')) removeRole = _selectedRole;
+  //     for (String role in lastRoles!)
+  //       if (!role.contains('⭐')) addRole = roles.find(role);
+  //   }
+  // }
+  //
+  //
+  // playGame() {
+  //   _day = 1;
+  //   _night = 1;
+  //   _sortPlayer();
+  // }
+  //
+  // startDay() {
+  //   _night++;
+  // }
+  //
+  // startVoting() {
+  //   if (_day > 1) _playersWithRole.shuffle();
+  //   _alives = 0;
+  //   _playersWithRole.forEach((element) {
+  //     if (element.status != 'dead') _alives++;
+  //   });
+  //   _day++;
+  // }
+  //
+  // startNight() {
+  //   _sortPlayer();
+  // }
+  //
+  // _sortPlayer() =>
+  //     _playersWithRole.sort((p1, p2) => p1.role.order.compareTo(p2.role.order));
+

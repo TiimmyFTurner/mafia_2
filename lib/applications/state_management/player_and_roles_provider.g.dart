@@ -6,6 +6,48 @@ part of 'player_and_roles_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$voteToJudgeHash() => r'4d670f4972edfbf110e9f5885a4eadd860623a90';
+
+/// See also [voteToJudge].
+@ProviderFor(voteToJudge)
+final voteToJudgeProvider = AutoDisposeProvider<int>.internal(
+  voteToJudge,
+  name: r'voteToJudgeProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$voteToJudgeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef VoteToJudgeRef = AutoDisposeProviderRef<int>;
+String _$voteToDeadHash() => r'656c11294cfadc90d5e9cb2cc48ef6198fc04f46';
+
+/// See also [voteToDead].
+@ProviderFor(voteToDead)
+final voteToDeadProvider = AutoDisposeProvider<int>.internal(
+  voteToDead,
+  name: r'voteToDeadProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$voteToDeadHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef VoteToDeadRef = AutoDisposeProviderRef<int>;
+String _$winnerCheckHash() => r'87b0dbe05f396231979597e2e143d0a5b330999d';
+
+/// See also [winnerCheck].
+@ProviderFor(winnerCheck)
+final winnerCheckProvider = AutoDisposeProvider<String>.internal(
+  winnerCheck,
+  name: r'winnerCheckProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$winnerCheckHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef WinnerCheckRef = AutoDisposeProviderRef<String>;
 String _$limitLockHash() => r'1e5a40d1dfc4a6966c2ef90e26785828d63f2330';
 
 /// See also [LimitLock].
@@ -142,5 +184,93 @@ final selectedIndependentProvider =
 );
 
 typedef _$SelectedIndependent = AutoDisposeNotifier<int>;
+String _$aliveHash() => r'17b833e538ddbde5c62c814c8a512df9f5bd6bd0';
+
+/// See also [Alive].
+@ProviderFor(Alive)
+final aliveProvider = AutoDisposeNotifierProvider<Alive, int>.internal(
+  Alive.new,
+  name: r'aliveProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$aliveHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Alive = AutoDisposeNotifier<int>;
+String _$dayHash() => r'772101bf80179d35d8d3cd2bdc4df0fc45ebd3b9';
+
+/// See also [Day].
+@ProviderFor(Day)
+final dayProvider = AutoDisposeNotifierProvider<Day, int>.internal(
+  Day.new,
+  name: r'dayProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$dayHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Day = AutoDisposeNotifier<int>;
+String _$nightHash() => r'8f7bb085b106f074f1e7c9f5e8ba4cc0f2e73f59';
+
+/// See also [Night].
+@ProviderFor(Night)
+final nightProvider = AutoDisposeNotifierProvider<Night, int>.internal(
+  Night.new,
+  name: r'nightProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$nightHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Night = AutoDisposeNotifier<int>;
+String _$customRoleHash() => r'08870a33b1aa51753761433aaf5eb204065f6600';
+
+/// See also [CustomRole].
+@ProviderFor(CustomRole)
+final customRoleProvider =
+    AutoDisposeNotifierProvider<CustomRole, List<Role>>.internal(
+  CustomRole.new,
+  name: r'customRoleProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$customRoleHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$CustomRole = AutoDisposeNotifier<List<Role>>;
+String _$selectedRolesHash() => r'a156f51c7a84054afc6dba1010c7e632853b98cd';
+
+/// See also [SelectedRoles].
+@ProviderFor(SelectedRoles)
+final selectedRolesProvider =
+    AutoDisposeNotifierProvider<SelectedRoles, List<Role>>.internal(
+  SelectedRoles.new,
+  name: r'selectedRolesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$selectedRolesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SelectedRoles = AutoDisposeNotifier<List<Role>>;
+String _$playersHash() => r'6d8738cb8e96adf6168c374475a019abad4f408e';
+
+/// See also [Players].
+@ProviderFor(Players)
+final playersProvider =
+    AutoDisposeNotifierProvider<Players, List<Player>>.internal(
+  Players.new,
+  name: r'playersProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$playersHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Players = AutoDisposeNotifier<List<Player>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
