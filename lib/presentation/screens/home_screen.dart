@@ -42,7 +42,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           "شروع بازی جدید",
                           style: TextStyle(fontSize: 24),
                         ),
-                        onPressed: () => {}
+                        onPressed: () => {
+                          context.pushReplacementNamed('setPlayers')
+                        }
                         //  Navigator.of(context).pushReplacement(
                         // MaterialPageRoute(builder: (_) => SetPlayers()),
                         // ),
