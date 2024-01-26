@@ -74,7 +74,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 36),
-                const Text("Mafia 2 0.0.0",
+                const Text("Mafia 2   0.0.0",
                     style: TextStyle(color: Colors.grey)),
                 const Text("Copyright © 2024 Timothy F. Turner",
                     style: TextStyle(color: Colors.grey)),
