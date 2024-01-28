@@ -302,8 +302,11 @@ class CustomRole extends _$CustomRole {
 // **************************************************************************
 @riverpod
 class SelectedRoles extends _$SelectedRoles {
+  late SharedPreferences _prefs;
+
   @override
   List<Role> build() {
+    _prefs = ref.watch(sharedPreferencesProvider);
     return [];
   }
 
@@ -393,6 +396,23 @@ class SelectedRoles extends _$SelectedRoles {
       }
     }
   }
+
+  void saveRoles() async {
+    await _prefs.setStringList('lastRoles', state.map((e) => e.name).toList());
+  }
+
+  void recoverLastRoles() {
+    Roles roles = Roles();
+    List<String>? lastRoles = _prefs.getStringList('lastRoles');
+    if (lastRoles != null) {
+      for (Role selectedRole in List.from(state)) {
+        if (!selectedRole.name.contains('⭐')) removeRole(selectedRole);
+      }
+      for (String role in lastRoles) {
+        if (!role.contains('⭐')) addRole(roles.find(role));
+      }
+    }
+  }
 }
 
 // **************************************************************************
@@ -419,7 +439,6 @@ class Players extends _$Players {
                   job: "یک مافیای ساده که عملکرد خاصی ندارد"),
             );
         ref.read(selectedMafiaProvider.notifier).increment();
-        // _selectedMafia++;
       }
       while (ref.watch(selectedCitizenProvider) <
               playerNames.length - (playerNames.length ~/ 3) &&
@@ -440,7 +459,6 @@ class Players extends _$Players {
       playerNames.shuffle();
       selectedRoles.shuffle();
       for (var i = 0; i < playerNames.length; i++) {
-        // final player
         state = [
           ...state,
           Player(

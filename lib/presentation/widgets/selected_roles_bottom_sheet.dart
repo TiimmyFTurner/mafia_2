@@ -8,16 +8,16 @@ import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
 
 const double minHeight = 90;
 
-class SetRolesExhibitionBottomSheet extends ConsumerStatefulWidget {
-  const SetRolesExhibitionBottomSheet({super.key});
+class SelectedRolesBottomSheet extends ConsumerStatefulWidget {
+  const SelectedRolesBottomSheet({super.key});
 
   @override
-  SetRolesExhibitionBottomSheetState createState() =>
-      SetRolesExhibitionBottomSheetState();
+  SelectedRolesBottomSheetState createState() =>
+      SelectedRolesBottomSheetState();
 }
 
-class SetRolesExhibitionBottomSheetState
-    extends ConsumerState<SetRolesExhibitionBottomSheet>
+class SelectedRolesBottomSheetState
+    extends ConsumerState<SelectedRolesBottomSheet>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
@@ -201,6 +201,10 @@ class SetRolesExhibitionBottomSheetState
                               ],
                             ),
                             onPressed: () {
+                              if (ref.read(selectedRolesProvider).isNotEmpty) {
+                                ref.read(selectedRolesProvider.notifier).saveRoles();
+                                // ref.read(playersProvider.notifier).setPlayers();
+                              }
                               // if (!Provider.of<RolesNPlayers>(context,
                               //         listen: false)
                               //     .selectedRoles

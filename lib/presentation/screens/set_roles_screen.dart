@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
-import 'package:mafia_2/presentation/widgets/setRolesExhibitionBottomSheet.dart';
+import 'package:mafia_2/presentation/widgets/selected_roles_bottom_sheet.dart';
 
 class SetRolesScreen extends ConsumerWidget {
   const SetRolesScreen({super.key});
@@ -66,7 +66,7 @@ class SetRolesScreen extends ConsumerWidget {
       body: Stack(
         children: <Widget>[
           SafeArea(child: buildBody()),
-          const SetRolesExhibitionBottomSheet(),
+          const SelectedRolesBottomSheet(),
         ],
       ),
     );
@@ -98,7 +98,7 @@ class SetRolesScreen extends ConsumerWidget {
               );
             },
           ),
-          _popupMenuButton(context),
+          _popupMenuButton(context,ref),
         ],
       );
 
@@ -128,9 +128,9 @@ class SetRolesScreen extends ConsumerWidget {
     );
   }
 
-  _popupMenuButton(context) {
+  _popupMenuButton(context,ref) {
     return PopupMenuButton<int>(
-      // onSelected: (value) => _menuOnSelected(value, context),
+      onSelected: (value) => _menuOnSelected(value, context,ref),
       itemBuilder: (context) => [
         const PopupMenuItem(
           value: 1,
@@ -155,21 +155,21 @@ class SetRolesScreen extends ConsumerWidget {
       ],
     );
   }
-//
-// _menuOnSelected(int value, BuildContext context) {
-//   switch (value) {
-//     case 1:
-//       // Provider.of<RolesNPlayers>(context, listen: false).recoverLastRoles();
-//       break;
-//     case 2:
-//       showModalBottomSheet(
-//           context: context,
-//           enableDrag: true,
-//           isScrollControlled: true,
-//           builder: (builder) => MyRoles())
-//           .then((value) => Provider.of<RolesNPlayers>(context, listen: false)
-//           .saveCustomRoles());
-//       break;
-//   }
-// }
+
+_menuOnSelected(int value, BuildContext context,ref) {
+  switch (value) {
+    case 1:
+      ref.read(selectedRolesProvider.notifier).recoverLastRoles();
+      break;
+    case 2:
+      // showModalBottomSheet(
+      //     context: context,
+      //     enableDrag: true,
+      //     isScrollControlled: true,
+      //     builder: (builder) => MyRoles())
+      //     .then((value) => Provider.of<RolesNPlayers>(context, listen: false)
+      //     .saveCustomRoles());
+      break;
+  }
+}
 }
