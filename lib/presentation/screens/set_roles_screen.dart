@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
+import 'package:mafia_2/presentation/widgets/myRoles.dart';
 import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
 import 'package:mafia_2/presentation/widgets/selected_roles_bottom_sheet.dart';
 
@@ -162,13 +163,13 @@ _menuOnSelected(int value, BuildContext context,ref) {
       ref.read(selectedRolesProvider.notifier).recoverLastRoles();
       break;
     case 2:
-      // showModalBottomSheet(
-      //     context: context,
-      //     enableDrag: true,
-      //     isScrollControlled: true,
-      //     builder: (builder) => MyRoles())
-      //     .then((value) => Provider.of<RolesNPlayers>(context, listen: false)
-      //     .saveCustomRoles());
+      showModalBottomSheet(
+        useSafeArea: true,
+          showDragHandle: true,
+          context: context,
+          isScrollControlled: true,
+          builder: (builder) => MyRoles());
+          // .then((value) => ref.read(customRoleProvider.notifier).());
       break;
   }
 }

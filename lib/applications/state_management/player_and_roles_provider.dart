@@ -252,25 +252,25 @@ class CustomRole extends _$CustomRole {
 
   @override
   List<Role> build() {
-    List<Role> roles;
     _prefs = ref.watch(sharedPreferencesProvider);
-    dynamic temp = _prefs.getString('customRoles');
-    if (temp.isNotEmpty) {
-      temp = jsonDecode(temp);
-      roles = temp.map((e) => Role.fromJson(e)).toList();
-      for (var element in roles) {
-        element.type == 'M'
-            ? ref.read(mafiasProvider.notifier).addMafia(element)
-            : element.type == 'C'
-                ? ref.read(citizensProvider.notifier).addCitizen(element)
-                : ref
-                    .read(independentsProvider.notifier)
-                    .addIndependent(element);
+    final storedString = _prefs.getString('custom_roles');
+    if (storedString != null) {
+      final individualJsons = storedString.split('|');
+      final deserializedList =
+          individualJsons.map((json) => jsonDecode(json)).toList();
+      List<Role> rolesList = [];
+      for (final item in deserializedList) {
+        Role role = Role.fromJson(item);
+        role.type == 'M'
+            ? ref.read(mafiasProvider.notifier).addMafia(role)
+            : role.type == 'C'
+                ? ref.read(citizensProvider.notifier).addCitizen(role)
+                : ref.read(independentsProvider.notifier).addIndependent(role);
+        rolesList.add(role);
       }
-      return roles;
-    } else {
-      return [];
+      return rolesList;
     }
+    return [];
   }
 
   void addCustomRole(Role role) {
@@ -280,6 +280,7 @@ class CustomRole extends _$CustomRole {
         : role.type == 'C'
             ? ref.read(citizensProvider.notifier).addCitizen(role)
             : ref.read(independentsProvider.notifier).addIndependent(role);
+    _saveSharedPreferences();
   }
 
   void removeCustomRole(Role role) {
@@ -292,8 +293,18 @@ class CustomRole extends _$CustomRole {
         : role.type == 'C'
             ? ref.read(citizensProvider.notifier).removeCitizen(role)
             : ref.read(independentsProvider.notifier).removeIndependent(role);
-    //TODO:Fix when selectedRoles provider is created
-    // _selectedRoles.remove(role);
+    ref.read(selectedRolesProvider.notifier).addRole(role);
+    _saveSharedPreferences();
+  }
+
+  void _saveSharedPreferences() {
+    if (state.isNotEmpty) {
+      final jsonList = state.map((role) => jsonEncode(role.toJson()));
+      final joinedString = jsonList.join('|');
+      _prefs.setString('custom_roles', joinedString);
+    } else {
+      _prefs.remove('custom_roles');
+    }
   }
 }
 
@@ -544,20 +555,7 @@ String winnerCheck(WinnerCheckRef ref) {
 // _independent = roles.independent;
 // }
 
-// saveRoles() async {
-//   await _prefs.setStringList(
-//       'lastRoles', _selectedRoles.map((e) => e.name).toList());
-// }
-// recoverLastRoles() {
-//   Roles roles = Roles();
-//   var lastRoles = _prefs.getStringList('lastRoles');
-//   if (lastRoles?.length != 0) {
-//     for (Role _selectedRole in List.from(_selectedRoles))
-//       if (!_selectedRole.name.contains('⭐')) removeRole = _selectedRole;
-//     for (String role in lastRoles!)
-//       if (!role.contains('⭐')) addRole = roles.find(role);
-//   }
-// }
+
 //
 //
 // playGame() {
