@@ -91,7 +91,7 @@ final playerNamesProvider =
 );
 
 typedef _$PlayerNames = Notifier<List<String>>;
-String _$mafiasHash() => r'34ccb2e8c99f7daffd02b55ed4a4f50abf78d768';
+String _$mafiasHash() => r'd653d79f12f6bcecf56d7547e05d68802ceb7886';
 
 /// See also [Mafias].
 @ProviderFor(Mafias)
@@ -105,7 +105,7 @@ final mafiasProvider = NotifierProvider<Mafias, List<Role>>.internal(
 );
 
 typedef _$Mafias = Notifier<List<Role>>;
-String _$citizensHash() => r'7ce2f1a3e3bef7b2c989b69e60bf6de51a57fbc1';
+String _$citizensHash() => r'9de16880c0fbfa3610bf7bbb5b1eb8500814c90c';
 
 /// See also [Citizens].
 @ProviderFor(Citizens)
@@ -119,7 +119,7 @@ final citizensProvider = NotifierProvider<Citizens, List<Role>>.internal(
 );
 
 typedef _$Citizens = Notifier<List<Role>>;
-String _$independentsHash() => r'b4113fd0d0fdb2ed8198b5b94ff09d7a183ebaf4';
+String _$independentsHash() => r'b24f26df00c7e1e24d7fb10a21521799c6d68b37';
 
 /// See also [Independents].
 @ProviderFor(Independents)
@@ -237,7 +237,7 @@ final customRoleProvider = NotifierProvider<CustomRole, List<Role>>.internal(
 );
 
 typedef _$CustomRole = Notifier<List<Role>>;
-String _$selectedRolesHash() => r'39abd96c1ab1d5b3bf7e8b789d804c8cff7486e2';
+String _$selectedRolesHash() => r'94ee9a6e44b27f4ec6d1763046458a32b917f8f5';
 
 /// See also [SelectedRoles].
 @ProviderFor(SelectedRoles)

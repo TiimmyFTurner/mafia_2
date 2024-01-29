@@ -102,7 +102,7 @@ class Mafias extends _$Mafias {
   void removeMafia(Role role) {
     state = [
       for (final item in state)
-        if (item.name != role.name) item,
+        if (item != role) item,
     ];
   }
 }
@@ -124,7 +124,7 @@ class Citizens extends _$Citizens {
   void removeCitizen(Role role) {
     state = [
       for (final item in state)
-        if (item.name != role.name) item,
+        if (item != role) item,
     ];
   }
 }
@@ -146,7 +146,7 @@ class Independents extends _$Independents {
   void removeIndependent(Role role) {
     state = [
       for (final item in state)
-        if (item.name != role.name) item,
+        if (item != role) item,
     ];
   }
 }
@@ -261,15 +261,15 @@ class CustomRole extends _$CustomRole {
     if (storedString != null) {
       final individualJsons = storedString.split('|');
       final deserializedList =
-      individualJsons.map((json) => jsonDecode(json)).toList();
+          individualJsons.map((json) => jsonDecode(json)).toList();
       List<Role> rolesList = [];
       for (final item in deserializedList) {
         Role role = Role.fromJson(item);
         role.type == 'M'
             ? ref.read(mafiasProvider.notifier).addMafia(role)
             : role.type == 'C'
-            ? ref.read(citizensProvider.notifier).addCitizen(role)
-            : ref.read(independentsProvider.notifier).addIndependent(role);
+                ? ref.read(citizensProvider.notifier).addCitizen(role)
+                : ref.read(independentsProvider.notifier).addIndependent(role);
         rolesList.add(role);
       }
       state = rolesList;
@@ -281,8 +281,8 @@ class CustomRole extends _$CustomRole {
     role.type == 'M'
         ? ref.read(mafiasProvider.notifier).addMafia(role)
         : role.type == 'C'
-        ? ref.read(citizensProvider.notifier).addCitizen(role)
-        : ref.read(independentsProvider.notifier).addIndependent(role);
+            ? ref.read(citizensProvider.notifier).addCitizen(role)
+            : ref.read(independentsProvider.notifier).addIndependent(role);
     _saveSharedPreferences();
   }
 
@@ -294,8 +294,8 @@ class CustomRole extends _$CustomRole {
     role.type == 'M'
         ? ref.read(mafiasProvider.notifier).removeMafia(role)
         : role.type == 'C'
-        ? ref.read(citizensProvider.notifier).removeCitizen(role)
-        : ref.read(independentsProvider.notifier).removeIndependent(role);
+            ? ref.read(citizensProvider.notifier).removeCitizen(role)
+            : ref.read(independentsProvider.notifier).removeIndependent(role);
     ref.read(selectedRolesProvider.notifier).removeRole(role);
     _saveSharedPreferences();
   }
@@ -325,20 +325,22 @@ class SelectedRoles extends _$SelectedRoles {
   }
 
   void removeRole(Role role) {
-    state = [
-      for (final item in state)
-        if (item.name != role.name) item,
-    ];
-    if (role.type == 'M') {
-      ref.read(mafiasProvider.notifier).addMafia(role);
-      ref.read(selectedMafiaProvider.notifier).decrement();
-    } else if (role.type == 'C') {
-      ref.read(citizensProvider.notifier).addCitizen(role);
-      ref.read(selectedCitizenProvider.notifier).decrement();
-    } else {
-      ref.read(independentsProvider.notifier).addIndependent(role);
-      ref.read(selectedCitizenProvider.notifier).decrement();
-      ref.read(selectedIndependentProvider.notifier).decrement();
+    if (state.contains(role)) {
+      state = [
+        for (final item in state)
+          if (item.name != role.name) item,
+      ];
+      if (role.type == 'M') {
+        ref.read(mafiasProvider.notifier).addMafia(role);
+        ref.read(selectedMafiaProvider.notifier).decrement();
+      } else if (role.type == 'C') {
+        ref.read(citizensProvider.notifier).addCitizen(role);
+        ref.read(selectedCitizenProvider.notifier).decrement();
+      } else {
+        ref.read(independentsProvider.notifier).addIndependent(role);
+        ref.read(selectedCitizenProvider.notifier).decrement();
+        ref.read(selectedIndependentProvider.notifier).decrement();
+      }
     }
   }
 
@@ -377,10 +379,10 @@ class SelectedRoles extends _$SelectedRoles {
         role.type == 'M'
             ? ref.read(mafiasProvider.notifier).removeMafia(role)
             : role.type == 'C'
-            ? ref.read(citizensProvider.notifier).removeCitizen(role)
-            : ref
-            .read(independentsProvider.notifier)
-            .removeIndependent(role);
+                ? ref.read(citizensProvider.notifier).removeCitizen(role)
+                : ref
+                    .read(independentsProvider.notifier)
+                    .removeIndependent(role);
 
         if (ref.read(starRoleProvider) && !role.name.contains('⭐⭐⭐')) {
           Role newStarRole = role.copyWith();
@@ -442,40 +444,32 @@ class Players extends _$Players {
   setPlayers() {
     List playerNames = ref.watch(playerNamesProvider);
 
-    if (playerNames.length != ref
-        .watch(selectedRolesProvider)
-        .length) {
+    if (playerNames.length != ref.watch(selectedRolesProvider).length) {
       while (ref.read(selectedMafiaProvider) < playerNames.length ~/ 3 &&
-          ref
-              .watch(selectedRolesProvider)
-              .length < playerNames.length) {
+          ref.watch(selectedRolesProvider).length < playerNames.length) {
         ref.read(selectedRolesProvider.notifier).addRole(
-          Role(
-              name: 'مافیا',
-              type: 'M',
-              order: 19,
-              job: "یک مافیای ساده که عملکرد خاصی ندارد"),
-        );
+              Role(
+                  name: 'مافیا',
+                  type: 'M',
+                  order: 19,
+                  job: "یک مافیای ساده که عملکرد خاصی ندارد"),
+            );
         ref.read(selectedMafiaProvider.notifier).increment();
       }
       while (ref.watch(selectedCitizenProvider) <
-          playerNames.length - (playerNames.length ~/ 3) &&
-          ref
-              .watch(selectedRolesProvider)
-              .length < playerNames.length) {
+              playerNames.length - (playerNames.length ~/ 3) &&
+          ref.watch(selectedRolesProvider).length < playerNames.length) {
         ref.read(selectedRolesProvider.notifier).addRole(
-          Role(
-              name: 'شهروند',
-              type: 'C',
-              order: 49,
-              job: "شهروند عادی ک در شب نقشی ندارد"),
-        );
+              Role(
+                  name: 'شهروند',
+                  type: 'C',
+                  order: 49,
+                  job: "شهروند عادی ک در شب نقشی ندارد"),
+            );
         ref.read(selectedCitizenProvider.notifier).increment();
       }
     }
-    if (playerNames.length == ref
-        .watch(selectedRolesProvider)
-        .length) {
+    if (playerNames.length == ref.watch(selectedRolesProvider).length) {
       state = [];
       List selectedRoles = ref.watch(selectedRolesProvider);
       playerNames.shuffle();
@@ -530,18 +524,15 @@ class Players extends _$Players {
 // **************************************************************************
 @riverpod
 String winnerCheck(WinnerCheckRef ref) {
-  int tAlive = 0,
-      tAliveCitizen = 0,
-      tAliveMafia = 0,
-      tAliveIndependent = 0;
+  int tAlive = 0, tAliveCitizen = 0, tAliveMafia = 0, tAliveIndependent = 0;
   ref.watch(playersProvider).forEach((element) {
     if (element.status != 'dead') {
       tAlive++;
       element.role.type == 'M'
           ? tAliveMafia++
           : element.role.type == 'C'
-          ? tAliveCitizen++
-          : tAliveIndependent++;
+              ? tAliveCitizen++
+              : tAliveIndependent++;
     }
   });
   if (tAliveMafia >= tAliveCitizen) {
@@ -564,7 +555,7 @@ String winnerCheck(WinnerCheckRef ref) {
 // _selectedCitizen = 0;
 // _selectedMafia = 0;
 // _selectedIndependent = 0;
-//_mafia = roles.mafia;
+// _mafia = roles.mafia;
 // _citizen = roles.citizen;
 // _independent = roles.independent;
 // }
