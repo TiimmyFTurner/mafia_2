@@ -110,6 +110,7 @@ class _SetPlayersScreenState extends ConsumerState<SetPlayersScreen> {
                   ),
                   onPressed: () {
                     if (players.length > 2) {
+                      ref.read(customRoleProvider.notifier).recoverRoles();
                       context.pushNamed('setRoles');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
