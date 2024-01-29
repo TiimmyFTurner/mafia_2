@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/role_model.dart';
+import 'package:mafia_2/presentation/widgets/my_roles_widget.dart';
 import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
 
 class HelpRolesScreen extends ConsumerWidget {
@@ -86,29 +87,28 @@ class HelpRolesScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            // Padding(
-            //   padding: const EdgeInsets.all(24),
-            //   child: SizedBox(
-            //     width: double.infinity,
-            //     height: 55,
-            //     child: FilledButton.tonal(
-            //       child: const Text(
-            //         "نقش های من",
-            //         style: TextStyle(
-            //           fontSize: 16,
-            //         ),
-            //       ),
-            //       onPressed: () =>{}
-            //           showModalBottomSheet(
-            //           context: context,
-            //           enableDrag: true,
-            //           isScrollControlled: true,
-            //           builder: (builder) => MyRoles())
-            //           .then((value) => Provider.of<RolesNPlayers>(context, listen: false)
-            //           .saveCustomRoles()),
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: FilledButton.tonal(
+                    child: const Text(
+                      "نقش های من",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    onPressed: () => {
+                          showModalBottomSheet(
+                              useSafeArea: true,
+                              showDragHandle: true,
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (builder) => const MyRoles())
+                        }),
+              ),
+            ),
             const Text('مافیا',
                 style: TextStyle(color: Colors.red, fontSize: 18)),
             roleGridView(roles: mafia),
