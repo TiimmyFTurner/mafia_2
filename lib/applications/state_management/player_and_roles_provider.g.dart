@@ -48,11 +48,11 @@ final winnerCheckProvider = AutoDisposeProvider<String>.internal(
 );
 
 typedef WinnerCheckRef = AutoDisposeProviderRef<String>;
-String _$limitLockHash() => r'1e5a40d1dfc4a6966c2ef90e26785828d63f2330';
+String _$limitLockHash() => r'a50ee328933be0694e3c8567e19bd83093ac7904';
 
 /// See also [LimitLock].
 @ProviderFor(LimitLock)
-final limitLockProvider = AutoDisposeNotifierProvider<LimitLock, bool>.internal(
+final limitLockProvider = NotifierProvider<LimitLock, bool>.internal(
   LimitLock.new,
   name: r'limitLockProvider',
   debugGetCreateSourceHash:
@@ -61,12 +61,12 @@ final limitLockProvider = AutoDisposeNotifierProvider<LimitLock, bool>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$LimitLock = AutoDisposeNotifier<bool>;
-String _$starRoleHash() => r'7f866f8b0b3ddbd7b7bc61eb4309d835638dbe61';
+typedef _$LimitLock = Notifier<bool>;
+String _$starRoleHash() => r'c483c569af222f7d052601e42454039069940b2c';
 
 /// See also [StarRole].
 @ProviderFor(StarRole)
-final starRoleProvider = AutoDisposeNotifierProvider<StarRole, bool>.internal(
+final starRoleProvider = NotifierProvider<StarRole, bool>.internal(
   StarRole.new,
   name: r'starRoleProvider',
   debugGetCreateSourceHash:
@@ -75,13 +75,13 @@ final starRoleProvider = AutoDisposeNotifierProvider<StarRole, bool>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$StarRole = AutoDisposeNotifier<bool>;
-String _$playerNamesHash() => r'7f26b8248e059efffdeacbd0012fa106ea863573';
+typedef _$StarRole = Notifier<bool>;
+String _$playerNamesHash() => r'ec0d1768c42bee696c513ad45a7583cbc6241756';
 
 /// See also [PlayerNames].
 @ProviderFor(PlayerNames)
 final playerNamesProvider =
-    AutoDisposeNotifierProvider<PlayerNames, List<String>>.internal(
+    NotifierProvider<PlayerNames, List<String>>.internal(
   PlayerNames.new,
   name: r'playerNamesProvider',
   debugGetCreateSourceHash:
@@ -90,12 +90,12 @@ final playerNamesProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$PlayerNames = AutoDisposeNotifier<List<String>>;
-String _$mafiasHash() => r'6aeb02150e5d9d1940f6562d6ea7d800dacdd841';
+typedef _$PlayerNames = Notifier<List<String>>;
+String _$mafiasHash() => r'34ccb2e8c99f7daffd02b55ed4a4f50abf78d768';
 
 /// See also [Mafias].
 @ProviderFor(Mafias)
-final mafiasProvider = AutoDisposeNotifierProvider<Mafias, List<Role>>.internal(
+final mafiasProvider = NotifierProvider<Mafias, List<Role>>.internal(
   Mafias.new,
   name: r'mafiasProvider',
   debugGetCreateSourceHash:
@@ -104,13 +104,12 @@ final mafiasProvider = AutoDisposeNotifierProvider<Mafias, List<Role>>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Mafias = AutoDisposeNotifier<List<Role>>;
-String _$citizensHash() => r'4c75ac849492f44a1cc283acadded2b787a80e31';
+typedef _$Mafias = Notifier<List<Role>>;
+String _$citizensHash() => r'7ce2f1a3e3bef7b2c989b69e60bf6de51a57fbc1';
 
 /// See also [Citizens].
 @ProviderFor(Citizens)
-final citizensProvider =
-    AutoDisposeNotifierProvider<Citizens, List<Role>>.internal(
+final citizensProvider = NotifierProvider<Citizens, List<Role>>.internal(
   Citizens.new,
   name: r'citizensProvider',
   debugGetCreateSourceHash:
@@ -119,13 +118,13 @@ final citizensProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Citizens = AutoDisposeNotifier<List<Role>>;
-String _$independentsHash() => r'cc46c19adccc6f34efa502e2b0dd66d1ac17f225';
+typedef _$Citizens = Notifier<List<Role>>;
+String _$independentsHash() => r'b4113fd0d0fdb2ed8198b5b94ff09d7a183ebaf4';
 
 /// See also [Independents].
 @ProviderFor(Independents)
 final independentsProvider =
-    AutoDisposeNotifierProvider<Independents, List<Role>>.internal(
+    NotifierProvider<Independents, List<Role>>.internal(
   Independents.new,
   name: r'independentsProvider',
   debugGetCreateSourceHash:
@@ -134,13 +133,12 @@ final independentsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Independents = AutoDisposeNotifier<List<Role>>;
-String _$selectedMafiaHash() => r'57a60b785a521d94f42113d4b09eb298056e7b20';
+typedef _$Independents = Notifier<List<Role>>;
+String _$selectedMafiaHash() => r'bdf809aedbad9c978d3fd5c55acb26c04c7bf2d1';
 
 /// See also [SelectedMafia].
 @ProviderFor(SelectedMafia)
-final selectedMafiaProvider =
-    AutoDisposeNotifierProvider<SelectedMafia, int>.internal(
+final selectedMafiaProvider = NotifierProvider<SelectedMafia, int>.internal(
   SelectedMafia.new,
   name: r'selectedMafiaProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -150,13 +148,12 @@ final selectedMafiaProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedMafia = AutoDisposeNotifier<int>;
-String _$selectedCitizenHash() => r'ce29f2fcde84d930f245e3acb44da87c643b032a';
+typedef _$SelectedMafia = Notifier<int>;
+String _$selectedCitizenHash() => r'52c37a6f097588556607d3d92c5db7b5cd368e61';
 
 /// See also [SelectedCitizen].
 @ProviderFor(SelectedCitizen)
-final selectedCitizenProvider =
-    AutoDisposeNotifierProvider<SelectedCitizen, int>.internal(
+final selectedCitizenProvider = NotifierProvider<SelectedCitizen, int>.internal(
   SelectedCitizen.new,
   name: r'selectedCitizenProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -166,14 +163,14 @@ final selectedCitizenProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedCitizen = AutoDisposeNotifier<int>;
+typedef _$SelectedCitizen = Notifier<int>;
 String _$selectedIndependentHash() =>
-    r'9791f1c5e9ec036dc058d2960534b606be84f28f';
+    r'9ed78a9c5dfa081ff58091f7439bff236c988ceb';
 
 /// See also [SelectedIndependent].
 @ProviderFor(SelectedIndependent)
 final selectedIndependentProvider =
-    AutoDisposeNotifierProvider<SelectedIndependent, int>.internal(
+    NotifierProvider<SelectedIndependent, int>.internal(
   SelectedIndependent.new,
   name: r'selectedIndependentProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -183,12 +180,12 @@ final selectedIndependentProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedIndependent = AutoDisposeNotifier<int>;
-String _$aliveHash() => r'17b833e538ddbde5c62c814c8a512df9f5bd6bd0';
+typedef _$SelectedIndependent = Notifier<int>;
+String _$aliveHash() => r'0f251a30d1ddeca5e2885e620abd34ff0213dc5e';
 
 /// See also [Alive].
 @ProviderFor(Alive)
-final aliveProvider = AutoDisposeNotifierProvider<Alive, int>.internal(
+final aliveProvider = NotifierProvider<Alive, int>.internal(
   Alive.new,
   name: r'aliveProvider',
   debugGetCreateSourceHash:
@@ -197,12 +194,12 @@ final aliveProvider = AutoDisposeNotifierProvider<Alive, int>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Alive = AutoDisposeNotifier<int>;
-String _$dayHash() => r'772101bf80179d35d8d3cd2bdc4df0fc45ebd3b9';
+typedef _$Alive = Notifier<int>;
+String _$dayHash() => r'1a50347b7b4225b801e832dd89d66a009fd623e3';
 
 /// See also [Day].
 @ProviderFor(Day)
-final dayProvider = AutoDisposeNotifierProvider<Day, int>.internal(
+final dayProvider = NotifierProvider<Day, int>.internal(
   Day.new,
   name: r'dayProvider',
   debugGetCreateSourceHash:
@@ -211,12 +208,12 @@ final dayProvider = AutoDisposeNotifierProvider<Day, int>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Day = AutoDisposeNotifier<int>;
-String _$nightHash() => r'8f7bb085b106f074f1e7c9f5e8ba4cc0f2e73f59';
+typedef _$Day = Notifier<int>;
+String _$nightHash() => r'e050672bd80b1fe4096d1b438966bf222060b046';
 
 /// See also [Night].
 @ProviderFor(Night)
-final nightProvider = AutoDisposeNotifierProvider<Night, int>.internal(
+final nightProvider = NotifierProvider<Night, int>.internal(
   Night.new,
   name: r'nightProvider',
   debugGetCreateSourceHash:
@@ -225,13 +222,12 @@ final nightProvider = AutoDisposeNotifierProvider<Night, int>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Night = AutoDisposeNotifier<int>;
-String _$customRoleHash() => r'08870a33b1aa51753761433aaf5eb204065f6600';
+typedef _$Night = Notifier<int>;
+String _$customRoleHash() => r'b63ec584572e0acf710aaed13b02d5c98d43a281';
 
 /// See also [CustomRole].
 @ProviderFor(CustomRole)
-final customRoleProvider =
-    AutoDisposeNotifierProvider<CustomRole, List<Role>>.internal(
+final customRoleProvider = NotifierProvider<CustomRole, List<Role>>.internal(
   CustomRole.new,
   name: r'customRoleProvider',
   debugGetCreateSourceHash:
@@ -240,13 +236,13 @@ final customRoleProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$CustomRole = AutoDisposeNotifier<List<Role>>;
-String _$selectedRolesHash() => r'fadf20ed06bc7de9cb90e309b38199f6a0f214ef';
+typedef _$CustomRole = Notifier<List<Role>>;
+String _$selectedRolesHash() => r'39abd96c1ab1d5b3bf7e8b789d804c8cff7486e2';
 
 /// See also [SelectedRoles].
 @ProviderFor(SelectedRoles)
 final selectedRolesProvider =
-    AutoDisposeNotifierProvider<SelectedRoles, List<Role>>.internal(
+    NotifierProvider<SelectedRoles, List<Role>>.internal(
   SelectedRoles.new,
   name: r'selectedRolesProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -256,13 +252,12 @@ final selectedRolesProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedRoles = AutoDisposeNotifier<List<Role>>;
-String _$playersHash() => r'8a23a76c70db9213773bc84191a2f0928d1d627c';
+typedef _$SelectedRoles = Notifier<List<Role>>;
+String _$playersHash() => r'1119cc32ca5d31bbcdcda843dfe3297f14e305c6';
 
 /// See also [Players].
 @ProviderFor(Players)
-final playersProvider =
-    AutoDisposeNotifierProvider<Players, List<Player>>.internal(
+final playersProvider = NotifierProvider<Players, List<Player>>.internal(
   Players.new,
   name: r'playersProvider',
   debugGetCreateSourceHash:
@@ -271,6 +266,6 @@ final playersProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Players = AutoDisposeNotifier<List<Player>>;
+typedef _$Players = Notifier<List<Player>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

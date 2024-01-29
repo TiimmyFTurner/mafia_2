@@ -12,7 +12,7 @@ part 'player_and_roles_provider.g.dart';
 // **************************************************************************
 // Limit Lock
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class LimitLock extends _$LimitLock {
   late SharedPreferences _prefs;
 
@@ -35,7 +35,7 @@ class LimitLock extends _$LimitLock {
 // **************************************************************************
 // Star Role
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class StarRole extends _$StarRole {
   late SharedPreferences _prefs;
 
@@ -55,7 +55,7 @@ class StarRole extends _$StarRole {
 // **************************************************************************
 // PlayerNames
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class PlayerNames extends _$PlayerNames {
   late SharedPreferences _prefs;
 
@@ -88,7 +88,7 @@ class PlayerNames extends _$PlayerNames {
 // **************************************************************************
 // Mafias
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class Mafias extends _$Mafias {
   @override
   List<Role> build() {
@@ -110,7 +110,7 @@ class Mafias extends _$Mafias {
 // **************************************************************************
 // Citizens
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class Citizens extends _$Citizens {
   @override
   List<Role> build() {
@@ -132,7 +132,7 @@ class Citizens extends _$Citizens {
 // **************************************************************************
 // Independents
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class Independents extends _$Independents {
   @override
   List<Role> build() {
@@ -154,7 +154,7 @@ class Independents extends _$Independents {
 // **************************************************************************
 // SelectedMafia
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class SelectedMafia extends _$SelectedMafia {
   @override
   int build() => 0;
@@ -167,7 +167,7 @@ class SelectedMafia extends _$SelectedMafia {
 // **************************************************************************
 // SelectedCitizen
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class SelectedCitizen extends _$SelectedCitizen {
   @override
   int build() => 0;
@@ -180,7 +180,7 @@ class SelectedCitizen extends _$SelectedCitizen {
 // **************************************************************************
 // SelectedIndependent
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class SelectedIndependent extends _$SelectedIndependent {
   @override
   int build() => 0;
@@ -193,7 +193,7 @@ class SelectedIndependent extends _$SelectedIndependent {
 // **************************************************************************
 // Alive
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class Alive extends _$SelectedIndependent {
   @override
   int build() => 0;
@@ -224,7 +224,7 @@ int voteToDead(VoteToDeadRef ref) {
 // **************************************************************************
 // Day
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class Day extends _$Day {
   @override
   int build() => 0;
@@ -235,7 +235,7 @@ class Day extends _$Day {
 // **************************************************************************
 // Night
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class Night extends _$Night {
   @override
   int build() => 0;
@@ -246,31 +246,34 @@ class Night extends _$Night {
 // **************************************************************************
 // Custom Role
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class CustomRole extends _$CustomRole {
   late SharedPreferences _prefs;
 
   @override
   List<Role> build() {
     _prefs = ref.watch(sharedPreferencesProvider);
+    return [];
+  }
+
+  void recoverRoles() {
     final storedString = _prefs.getString('custom_roles');
     if (storedString != null) {
       final individualJsons = storedString.split('|');
       final deserializedList =
-          individualJsons.map((json) => jsonDecode(json)).toList();
+      individualJsons.map((json) => jsonDecode(json)).toList();
       List<Role> rolesList = [];
       for (final item in deserializedList) {
         Role role = Role.fromJson(item);
         role.type == 'M'
             ? ref.read(mafiasProvider.notifier).addMafia(role)
             : role.type == 'C'
-                ? ref.read(citizensProvider.notifier).addCitizen(role)
-                : ref.read(independentsProvider.notifier).addIndependent(role);
+            ? ref.read(citizensProvider.notifier).addCitizen(role)
+            : ref.read(independentsProvider.notifier).addIndependent(role);
         rolesList.add(role);
       }
-      return rolesList;
+      state = rolesList;
     }
-    return [];
   }
 
   void addCustomRole(Role role) {
@@ -278,8 +281,8 @@ class CustomRole extends _$CustomRole {
     role.type == 'M'
         ? ref.read(mafiasProvider.notifier).addMafia(role)
         : role.type == 'C'
-            ? ref.read(citizensProvider.notifier).addCitizen(role)
-            : ref.read(independentsProvider.notifier).addIndependent(role);
+        ? ref.read(citizensProvider.notifier).addCitizen(role)
+        : ref.read(independentsProvider.notifier).addIndependent(role);
     _saveSharedPreferences();
   }
 
@@ -291,9 +294,9 @@ class CustomRole extends _$CustomRole {
     role.type == 'M'
         ? ref.read(mafiasProvider.notifier).removeMafia(role)
         : role.type == 'C'
-            ? ref.read(citizensProvider.notifier).removeCitizen(role)
-            : ref.read(independentsProvider.notifier).removeIndependent(role);
-    ref.read(selectedRolesProvider.notifier).addRole(role);
+        ? ref.read(citizensProvider.notifier).removeCitizen(role)
+        : ref.read(independentsProvider.notifier).removeIndependent(role);
+    ref.read(selectedRolesProvider.notifier).removeRole(role);
     _saveSharedPreferences();
   }
 
@@ -311,7 +314,7 @@ class CustomRole extends _$CustomRole {
 // **************************************************************************
 // SelectedRoles
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class SelectedRoles extends _$SelectedRoles {
   late SharedPreferences _prefs;
 
@@ -374,10 +377,10 @@ class SelectedRoles extends _$SelectedRoles {
         role.type == 'M'
             ? ref.read(mafiasProvider.notifier).removeMafia(role)
             : role.type == 'C'
-                ? ref.read(citizensProvider.notifier).removeCitizen(role)
-                : ref
-                    .read(independentsProvider.notifier)
-                    .removeIndependent(role);
+            ? ref.read(citizensProvider.notifier).removeCitizen(role)
+            : ref
+            .read(independentsProvider.notifier)
+            .removeIndependent(role);
 
         if (ref.read(starRoleProvider) && !role.name.contains('⭐⭐⭐')) {
           Role newStarRole = role.copyWith();
@@ -429,7 +432,7 @@ class SelectedRoles extends _$SelectedRoles {
 // **************************************************************************
 // Players
 // **************************************************************************
-@riverpod
+@Riverpod(keepAlive: true)
 class Players extends _$Players {
   @override
   List<Player> build() {
@@ -439,32 +442,40 @@ class Players extends _$Players {
   setPlayers() {
     List playerNames = ref.watch(playerNamesProvider);
 
-    if (playerNames.length != ref.watch(selectedRolesProvider).length) {
+    if (playerNames.length != ref
+        .watch(selectedRolesProvider)
+        .length) {
       while (ref.read(selectedMafiaProvider) < playerNames.length ~/ 3 &&
-          ref.watch(selectedRolesProvider).length < playerNames.length) {
+          ref
+              .watch(selectedRolesProvider)
+              .length < playerNames.length) {
         ref.read(selectedRolesProvider.notifier).addRole(
-              Role(
-                  name: 'مافیا',
-                  type: 'M',
-                  order: 19,
-                  job: "یک مافیای ساده که عملکرد خاصی ندارد"),
-            );
+          Role(
+              name: 'مافیا',
+              type: 'M',
+              order: 19,
+              job: "یک مافیای ساده که عملکرد خاصی ندارد"),
+        );
         ref.read(selectedMafiaProvider.notifier).increment();
       }
       while (ref.watch(selectedCitizenProvider) <
-              playerNames.length - (playerNames.length ~/ 3) &&
-          ref.watch(selectedRolesProvider).length < playerNames.length) {
+          playerNames.length - (playerNames.length ~/ 3) &&
+          ref
+              .watch(selectedRolesProvider)
+              .length < playerNames.length) {
         ref.read(selectedRolesProvider.notifier).addRole(
-              Role(
-                  name: 'شهروند',
-                  type: 'C',
-                  order: 49,
-                  job: "شهروند عادی ک در شب نقشی ندارد"),
-            );
+          Role(
+              name: 'شهروند',
+              type: 'C',
+              order: 49,
+              job: "شهروند عادی ک در شب نقشی ندارد"),
+        );
         ref.read(selectedCitizenProvider.notifier).increment();
       }
     }
-    if (playerNames.length == ref.watch(selectedRolesProvider).length) {
+    if (playerNames.length == ref
+        .watch(selectedRolesProvider)
+        .length) {
       state = [];
       List selectedRoles = ref.watch(selectedRolesProvider);
       playerNames.shuffle();
@@ -519,15 +530,18 @@ class Players extends _$Players {
 // **************************************************************************
 @riverpod
 String winnerCheck(WinnerCheckRef ref) {
-  int tAlive = 0, tAliveCitizen = 0, tAliveMafia = 0, tAliveIndependent = 0;
+  int tAlive = 0,
+      tAliveCitizen = 0,
+      tAliveMafia = 0,
+      tAliveIndependent = 0;
   ref.watch(playersProvider).forEach((element) {
     if (element.status != 'dead') {
       tAlive++;
       element.role.type == 'M'
           ? tAliveMafia++
           : element.role.type == 'C'
-              ? tAliveCitizen++
-              : tAliveIndependent++;
+          ? tAliveCitizen++
+          : tAliveIndependent++;
     }
   });
   if (tAliveMafia >= tAliveCitizen) {
@@ -554,7 +568,6 @@ String winnerCheck(WinnerCheckRef ref) {
 // _citizen = roles.citizen;
 // _independent = roles.independent;
 // }
-
 
 //
 //
