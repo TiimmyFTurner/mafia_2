@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
-import 'package:mafia_2/presentation/widgets/myRoles.dart';
+import 'package:mafia_2/presentation/widgets/my_roles_widget.dart';
 import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
 import 'package:mafia_2/presentation/widgets/selected_roles_bottom_sheet.dart';
 
@@ -168,7 +168,7 @@ _menuOnSelected(int value, BuildContext context,ref) {
           showDragHandle: true,
           context: context,
           isScrollControlled: true,
-          builder: (builder) => MyRoles());
+          builder: (builder) => const MyRoles());
           // .then((value) => ref.read(customRoleProvider.notifier).());
       break;
   }
