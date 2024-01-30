@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/note_provider.dart';
+import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 
 class InGameAppBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
@@ -30,8 +31,6 @@ class InGameAppBarState extends ConsumerState<InGameAppBar> {
           icon: const Icon(Icons.edit_note),
           onPressed: () {
             noteController.text = ref.read(noteProvider);
-
-            // Provider.of<Note>(context, listen: false).note;
             showModalBottomSheet(
                 context: context,
                 showDragHandle: true,
@@ -53,7 +52,7 @@ class InGameAppBarState extends ConsumerState<InGameAppBar> {
                                 right: 16, left: 16, bottom: 16),
                             child: TextField(
                               controller: noteController,
-                              maxLines: 25,
+                              maxLines: 15,
                               autofocus: true,
                               decoration: const InputDecoration(
                                   hintText: 'متن یاداشت را وارد کنید'),
@@ -87,11 +86,15 @@ class InGameAppBarState extends ConsumerState<InGameAppBar> {
                     TextButton(
                       child: const Text("بله"),
                       onPressed: () {
-                        //TODO impelemnt new game logic
-                        // Provider.of<RolesNPlayers>(context, listen: false)
-                        //     .newGame();
-                        // Provider.of<Note>(context, listen: false)
-                        //     .clearNote();
+                        ref.invalidate(noteProvider);
+                        ref.invalidate(selectedRolesProvider);
+                        ref.invalidate(playersProvider);
+                        ref.invalidate(selectedCitizenProvider);
+                        ref.invalidate(selectedMafiaProvider);
+                        ref.invalidate(selectedIndependentProvider);
+                        ref.invalidate(mafiasProvider);
+                        ref.invalidate(citizensProvider);
+                        ref.invalidate(independentsProvider);
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
