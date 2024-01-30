@@ -49,13 +49,12 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                     child: ActionSlider.standard(
                       sliderBehavior: SliderBehavior.stretch,
                       backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                      action: (controller) {
+                      action: (controller) async {
                         controller.success();
+                        await Future.delayed(const Duration(seconds: 1));
+                        if (!context.mounted) return;
+                        ref.read(playersProvider.notifier).sortPlayers();
                         //TODO: IMPLEMENT THIS
-                        // Provider.of<LastMoveProvider>(context, listen: false)
-                        //     .newGame();
-                        // Provider.of<RolesNPlayers>(context, listen: false)
-                        //     .playGame();
                         // Navigator.of(context).pushReplacement(
                         //   MaterialPageRoute(builder: (_) => Day()),
                         // );
