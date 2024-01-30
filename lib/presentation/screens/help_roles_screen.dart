@@ -22,7 +22,7 @@ class HelpRolesScreen extends ConsumerWidget {
           Text("نقش: ${role.name}\nگروه: $type",
               style: const TextStyle(fontSize: 24.0),
               textAlign: TextAlign.center,
-              textDirection: TextDirection.rtl),
+            ),
           const SizedBox(height: 8),
           Padding(
             padding: const EdgeInsets.all(8.0),

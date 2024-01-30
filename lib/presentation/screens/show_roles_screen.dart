@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
-import 'package:mafia_2/presentation/widgets/role_dialog_widget.dart';
 import 'package:action_slider/action_slider.dart';
 
 class ShowRolesScreen extends ConsumerStatefulWidget {
@@ -15,9 +14,11 @@ class ShowRolesScreen extends ConsumerStatefulWidget {
 
 class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
   bool _lock = false;
+  late List<Player> players;
 
   @override
   void initState() {
+    players = [...ref.read(playersProvider)];
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((Duration d) {
       setState(() {
@@ -28,9 +29,9 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Player> players = [...ref.read(playersProvider)];
     return PopScope(
-      canPop: false,
+      //TODO Set to false when u done implementing
+      // canPop: false,
       child: Scaffold(
         appBar: AppBar(title: const Text("نمایش نقش ها")),
         body: players.isEmpty
@@ -42,6 +43,7 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                     backgroundColor: Theme.of(context).colorScheme.onPrimary,
                     action: (controller) {
                       controller.success();
+                      //TODO: IMPLEMENT THIS
                       // Provider.of<LastMoveProvider>(context, listen: false)
                       //     .newGame();
                       // Provider.of<RolesNPlayers>(context, listen: false)
@@ -78,7 +80,8 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                                 borderRadius: BorderRadius.circular(20)),
                             elevation: 6,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
@@ -107,23 +110,74 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                                 ? "مافیا"
                                 : "مستقل";
                         showModalBottomSheet(
-                          context: context,
-                          enableDrag: true,
-                          isScrollControlled: true,
-                          builder: (builder) => RoleDialog(
-                            title: players[index].name,
-                            desc: "نقش: " +
-                                players[index].role.name +
-                                "\nگروه: " +
-                                role,
-                            btn: "فهمیدم",
-                            more: players[index].role.job,
-
-                            image: AssetImage(
-                              "asset/images/" + players[index].role.type + ".jpg",
-                            ),
-                          ),
-                        ).then(
+                            context: context,
+                            showDragHandle: true,
+                            builder: (builder) => Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: <Widget>[
+                                            Text(
+                                              players[index].name,
+                                              style: const TextStyle(
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              "نقش: ${players[index].role.name}\nگروه: $role",
+                                              style: const TextStyle(
+                                                  fontSize: 27.0),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Card(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surfaceVariant,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      12.0),
+                                                  child: Text(
+                                                    players[index].role.job,
+                                                    style: const TextStyle(
+                                                        fontSize: 16),
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 10),
+                                      child: SizedBox(
+                                        // width: double.infinity,
+                                        height: 55,
+                                        child: FilledButton.tonal(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("فهمیدم"),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )).then(
                           (value) => setState(() {
                             players.remove(players[index]);
                           }),

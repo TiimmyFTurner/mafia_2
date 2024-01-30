@@ -203,26 +203,12 @@ class SelectedRolesBottomSheetState
                             ),
                             onPressed: () {
                               if (ref.read(selectedRolesProvider).isNotEmpty) {
-                                ref.read(selectedRolesProvider.notifier).saveRoles();
+                                ref
+                                    .read(selectedRolesProvider.notifier)
+                                    .saveRoles();
                                 ref.read(playersProvider.notifier).setPlayers();
-                                // context.pushReplacementNamed('showRoles');
-
+                                context.pushReplacementNamed('showRoles');
                               }
-                              // if (!Provider.of<RolesNPlayers>(context,
-                              //         listen: false)
-                              //     .selectedRoles
-                              //     .isEmpty) {
-                              //   Provider.of<RolesNPlayers>(context,
-                              //           listen: false)
-                              //       .saveRoles();
-                              //   Provider.of<RolesNPlayers>(context,
-                              //           listen: false)
-                              //       .setPlayers();
-                              //   Navigator.of(context).pushReplacement(
-                              //     MaterialPageRoute(
-                              //         builder: (_) => ShowRoles()),
-                              //   );
-                              // }
                             },
                           ),
                         ),
