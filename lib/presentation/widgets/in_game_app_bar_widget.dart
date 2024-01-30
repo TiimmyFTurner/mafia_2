@@ -95,6 +95,8 @@ class InGameAppBarState extends ConsumerState<InGameAppBar> {
                         ref.invalidate(mafiasProvider);
                         ref.invalidate(citizensProvider);
                         ref.invalidate(independentsProvider);
+                        ref.invalidate(nightProvider);
+                        ref.invalidate(dayProvider);
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
