@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
 import 'package:action_slider/action_slider.dart';
+import 'package:mafia_2/presentation/widgets/in_game_app_bar_widget.dart';
 
 class ShowRolesScreen extends ConsumerStatefulWidget {
   const ShowRolesScreen({super.key});
@@ -33,7 +34,7 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
       //TODO Set to false when u done implementing
       // canPop: false,
       child: Scaffold(
-        appBar: AppBar(title: const Text("نمایش نقش ها")),
+        appBar: const InGameAppBar(title:"نمایش نقش ها" ),//AppBar(title: const Text("نمایش نقش ها")),
         body: players.isEmpty
             ? Center(
                 child: Padding(
@@ -60,10 +61,10 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                 padding: const EdgeInsets.all(10),
                 child: GridView.count(
                   crossAxisCount: 3,
-                  childAspectRatio: (2 / 1),
+                  childAspectRatio: (2 / 1.1),
                   children: List.generate(players.length, (index) {
                     return InkWell(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(16),
                       child: AnimatedOpacity(
                         duration: const Duration(milliseconds: 400),
                         opacity: _lock ? 1 : 0,
@@ -76,9 +77,6 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                               : EdgeInsets.only(
                                   top: MediaQuery.of(context).size.height),
                           child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            elevation: 6,
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12),
