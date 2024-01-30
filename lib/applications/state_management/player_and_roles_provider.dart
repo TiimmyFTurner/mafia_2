@@ -227,7 +227,7 @@ int voteToDead(VoteToDeadRef ref) {
 @Riverpod(keepAlive: true)
 class Day extends _$Day {
   @override
-  int build() => 0;
+  int build() => 1;
 
   void increment() => state++;
 }
@@ -238,7 +238,7 @@ class Day extends _$Day {
 @Riverpod(keepAlive: true)
 class Night extends _$Night {
   @override
-  int build() => 0;
+  int build() => 1;
 
   void increment() => state++;
 }
@@ -489,6 +489,12 @@ class Players extends _$Players {
         ];
       }
     }
+  }
+
+  void sortPlayers(){
+    List<Player> temp = [...state];
+    temp.sort((p1, p2) => p1.role.order.compareTo(p2.role.order));
+    state = temp;
   }
 
   void silentPlayer(String playerName) {

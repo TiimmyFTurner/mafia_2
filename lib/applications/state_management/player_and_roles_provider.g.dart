@@ -195,7 +195,7 @@ final aliveProvider = NotifierProvider<Alive, int>.internal(
 );
 
 typedef _$Alive = Notifier<int>;
-String _$dayHash() => r'1a50347b7b4225b801e832dd89d66a009fd623e3';
+String _$dayHash() => r'a00e6808458c2d6ff99a73c6a82fe247a4a5034f';
 
 /// See also [Day].
 @ProviderFor(Day)
@@ -209,7 +209,7 @@ final dayProvider = NotifierProvider<Day, int>.internal(
 );
 
 typedef _$Day = Notifier<int>;
-String _$nightHash() => r'e050672bd80b1fe4096d1b438966bf222060b046';
+String _$nightHash() => r'aec2d22027da7ac9fb7d844005e085f6a04ae891';
 
 /// See also [Night].
 @ProviderFor(Night)
@@ -253,7 +253,7 @@ final selectedRolesProvider =
 );
 
 typedef _$SelectedRoles = Notifier<List<Role>>;
-String _$playersHash() => r'16354ddaae69201b7c7b082fd4bae5b01c539104';
+String _$playersHash() => r'c2a00537127bbb5c4f1852e38e7a9c966348523a';
 
 /// See also [Players].
 @ProviderFor(Players)
