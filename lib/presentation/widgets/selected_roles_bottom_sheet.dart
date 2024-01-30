@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
 
@@ -203,7 +204,9 @@ class SelectedRolesBottomSheetState
                             onPressed: () {
                               if (ref.read(selectedRolesProvider).isNotEmpty) {
                                 ref.read(selectedRolesProvider.notifier).saveRoles();
-                                // ref.read(playersProvider.notifier).setPlayers();
+                                ref.read(playersProvider.notifier).setPlayers();
+                                // context.pushReplacementNamed('showRoles');
+
                               }
                               // if (!Provider.of<RolesNPlayers>(context,
                               //         listen: false)

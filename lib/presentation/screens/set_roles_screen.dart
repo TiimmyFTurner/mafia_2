@@ -169,7 +169,6 @@ _menuOnSelected(int value, BuildContext context,ref) {
           context: context,
           isScrollControlled: true,
           builder: (builder) => const MyRoles());
-          // .then((value) => ref.read(customRoleProvider.notifier).());
       break;
   }
 }

@@ -441,12 +441,15 @@ class Players extends _$Players {
     return [];
   }
 
-  setPlayers() {
-    List playerNames = ref.watch(playerNamesProvider);
+  setPlayers() async {
+    List playerNames = ref.read(playerNamesProvider);
+    int selectedCitizenCount = ref.read(selectedCitizenProvider),
+        selectedMafiaCount = ref.read(selectedMafiaProvider),
+        selectedRolesCount = ref.read(selectedRolesProvider).length;
 
-    if (playerNames.length != ref.watch(selectedRolesProvider).length) {
-      while (ref.read(selectedMafiaProvider) < playerNames.length ~/ 3 &&
-          ref.watch(selectedRolesProvider).length < playerNames.length) {
+    if (playerNames.length != selectedRolesCount) {
+      while (selectedMafiaCount < playerNames.length ~/ 3 &&
+          selectedRolesCount < playerNames.length) {
         ref.read(selectedRolesProvider.notifier).addRole(
               Role(
                   name: 'مافیا',
@@ -454,11 +457,12 @@ class Players extends _$Players {
                   order: 19,
                   job: "یک مافیای ساده که عملکرد خاصی ندارد"),
             );
-        ref.read(selectedMafiaProvider.notifier).increment();
+        selectedMafiaCount++;
+        selectedRolesCount++;
       }
-      while (ref.watch(selectedCitizenProvider) <
+      while (selectedCitizenCount <
               playerNames.length - (playerNames.length ~/ 3) &&
-          ref.watch(selectedRolesProvider).length < playerNames.length) {
+          selectedRolesCount < playerNames.length) {
         ref.read(selectedRolesProvider.notifier).addRole(
               Role(
                   name: 'شهروند',
@@ -466,10 +470,11 @@ class Players extends _$Players {
                   order: 49,
                   job: "شهروند عادی ک در شب نقشی ندارد"),
             );
-        ref.read(selectedCitizenProvider.notifier).increment();
+        selectedCitizenCount++;
+        selectedRolesCount++;
       }
     }
-    if (playerNames.length == ref.watch(selectedRolesProvider).length) {
+    if (playerNames.length == selectedRolesCount) {
       state = [];
       List selectedRoles = ref.watch(selectedRolesProvider);
       playerNames.shuffle();
@@ -480,10 +485,9 @@ class Players extends _$Players {
           Player(
               name: playerNames[i],
               status: 'alive',
-              role: ref.watch(selectedRolesProvider)[i])
+              role: selectedRoles[i])
         ];
       }
-      // _playersWithRoleFoShow = List.from(_playersWithRole);
     }
   }
 

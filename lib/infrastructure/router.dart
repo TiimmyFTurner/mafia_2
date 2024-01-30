@@ -5,6 +5,7 @@ import 'package:mafia_2/presentation/screens/how_to_play_screen.dart';
 import 'package:mafia_2/presentation/screens/set_players_screen.dart';
 import 'package:mafia_2/presentation/screens/set_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/settings_screen.dart';
+import 'package:mafia_2/presentation/screens/show_roles_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -38,6 +39,11 @@ final GoRouter router = GoRouter(
       path: '/setRoles',
       name: 'setRoles',
       builder: (context, state) =>  const SetRolesScreen(),
+    ),
+    GoRoute(
+      path: '/showRoles',
+      name: 'showRoles',
+      builder: (context, state) =>  const ShowRolesScreen(),
     ),
   ],
 );
