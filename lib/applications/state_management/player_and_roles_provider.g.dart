@@ -253,7 +253,7 @@ final selectedRolesProvider =
 );
 
 typedef _$SelectedRoles = Notifier<List<Role>>;
-String _$playersHash() => r'1119cc32ca5d31bbcdcda843dfe3297f14e305c6';
+String _$playersHash() => r'16354ddaae69201b7c7b082fd4bae5b01c539104';
 
 /// See also [Players].
 @ProviderFor(Players)
