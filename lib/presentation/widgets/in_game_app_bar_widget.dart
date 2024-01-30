@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/note_provider.dart';
 
 class InGameAppBar extends ConsumerStatefulWidget
@@ -68,10 +69,9 @@ class InGameAppBarState extends ConsumerState<InGameAppBar> {
                 });
           }),
       actions: <Widget>[
-        IconButton(icon: const Icon(Icons.lock_outline), onPressed: () {}),
-        //TODO impelemnt lock page
-        // => Navigator.of(context)
-        //     .push(MaterialPageRoute(builder: (_) => Lock()))),
+        IconButton(
+            icon: const Icon(Icons.lock_outline),
+            onPressed: () => context.pushNamed("lock")),
         IconButton(
           icon: const Icon(Icons.fiber_new),
           onPressed: () {

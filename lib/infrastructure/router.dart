@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mafia_2/presentation/screens/help_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/home_screen.dart';
 import 'package:mafia_2/presentation/screens/how_to_play_screen.dart';
+import 'package:mafia_2/presentation/screens/lock_screen.dart';
 import 'package:mafia_2/presentation/screens/set_players_screen.dart';
 import 'package:mafia_2/presentation/screens/set_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/settings_screen.dart';
@@ -18,32 +19,37 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/helpRoles',
       name: 'helpRolesScreen',
-      builder: (context, state) =>  const HelpRolesScreen(),
+      builder: (context, state) => const HelpRolesScreen(),
     ),
     GoRoute(
       path: '/howToPlay',
       name: 'howToPlay',
-      builder: (context, state) =>  const HowToPlayScreen(),
+      builder: (context, state) => const HowToPlayScreen(),
     ),
     GoRoute(
       path: '/settings',
       name: 'settings',
-      builder: (context, state) =>  const SettingsScreen(),
+      builder: (context, state) => const SettingsScreen(),
     ),
     GoRoute(
       path: '/setPlayers',
       name: 'setPlayers',
-      builder: (context, state) =>  const SetPlayersScreen(),
+      builder: (context, state) => const SetPlayersScreen(),
     ),
     GoRoute(
       path: '/setRoles',
       name: 'setRoles',
-      builder: (context, state) =>  const SetRolesScreen(),
+      builder: (context, state) => const SetRolesScreen(),
     ),
     GoRoute(
       path: '/showRoles',
       name: 'showRoles',
-      builder: (context, state) =>  const ShowRolesScreen(),
+      builder: (context, state) => const ShowRolesScreen(),
+    ),
+    GoRoute(
+      path: '/lock',
+      name: 'lock',
+      builder: (context, state) => const LockScreen(),
     ),
   ],
 );

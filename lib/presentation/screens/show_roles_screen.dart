@@ -34,28 +34,36 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
       //TODO Set to false when u done implementing
       // canPop: false,
       child: Scaffold(
-        appBar: const InGameAppBar(title:"نمایش نقش ها" ),//AppBar(title: const Text("نمایش نقش ها")),
+        appBar: const InGameAppBar(title: "نمایش نقش ها"),
+        //AppBar(title: const Text("نمایش نقش ها")),
         body: players.isEmpty
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: ActionSlider.standard(
-                    sliderBehavior: SliderBehavior.stretch,
-                    backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                    action: (controller) {
-                      controller.success();
-                      //TODO: IMPLEMENT THIS
-                      // Provider.of<LastMoveProvider>(context, listen: false)
-                      //     .newGame();
-                      // Provider.of<RolesNPlayers>(context, listen: false)
-                      //     .playGame();
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(builder: (_) => Day()),
-                      // );
-                    },
-                    child: const Text("برای شروع بازی بکشید"),
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 100 ,vertical: 20),
+                    child: Image.asset('asset/theme/play.png'),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: ActionSlider.standard(
+                      sliderBehavior: SliderBehavior.stretch,
+                      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                      action: (controller) {
+                        controller.success();
+                        //TODO: IMPLEMENT THIS
+                        // Provider.of<LastMoveProvider>(context, listen: false)
+                        //     .newGame();
+                        // Provider.of<RolesNPlayers>(context, listen: false)
+                        //     .playGame();
+                        // Navigator.of(context).pushReplacement(
+                        //   MaterialPageRoute(builder: (_) => Day()),
+                        // );
+                      },
+                      child: const Text("برای شروع بازی بکشید"),
+                    ),
+                  ),
+                ],
               )
             : Padding(
                 padding: const EdgeInsets.all(10),
