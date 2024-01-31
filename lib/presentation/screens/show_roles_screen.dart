@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
 import 'package:action_slider/action_slider.dart';
@@ -31,17 +32,16 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      //TODO Set to false when u done implementing
-      // canPop: false,
+      canPop: false,
       child: Scaffold(
         appBar: const InGameAppBar(title: "نمایش نقش ها"),
-        //AppBar(title: const Text("نمایش نقش ها")),
         body: players.isEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 100 ,vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 100, vertical: 20),
                     child: Image.asset('asset/theme/play.png'),
                   ),
                   Padding(
@@ -54,10 +54,7 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                         await Future.delayed(const Duration(seconds: 1));
                         if (!context.mounted) return;
                         ref.read(playersProvider.notifier).sortPlayers();
-                        //TODO: IMPLEMENT THIS
-                        // Navigator.of(context).pushReplacement(
-                        //   MaterialPageRoute(builder: (_) => Day()),
-                        // );
+                        context.pushReplacementNamed('day');
                       },
                       child: const Text("برای شروع بازی بکشید"),
                     ),

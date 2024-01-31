@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mafia_2/presentation/screens/day_screen.dart';
 import 'package:mafia_2/presentation/screens/help_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/home_screen.dart';
 import 'package:mafia_2/presentation/screens/how_to_play_screen.dart';
@@ -51,5 +52,10 @@ final GoRouter router = GoRouter(
       name: 'lock',
       builder: (context, state) => const LockScreen(),
     ),
+    GoRoute(
+      path: '/day',
+      name: 'day',
+      builder: (context, state) => const DayScreen(),
+    )
   ],
 );
