@@ -38,7 +38,6 @@ class ListItemDayState extends ConsumerState<ListItemDay> {
             child: Text(
               player.name,
               style: const TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -47,7 +46,6 @@ class ListItemDayState extends ConsumerState<ListItemDay> {
             child: Text(
               player.role.name,
               style: const TextStyle(color: Colors.white),
-              textAlign: TextAlign.start,
               overflow: TextOverflow.ellipsis,
             ),
           ),
