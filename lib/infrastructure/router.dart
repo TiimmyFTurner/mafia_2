@@ -9,6 +9,7 @@ import 'package:mafia_2/presentation/screens/set_players_screen.dart';
 import 'package:mafia_2/presentation/screens/set_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/settings_screen.dart';
 import 'package:mafia_2/presentation/screens/show_roles_screen.dart';
+import 'package:mafia_2/presentation/screens/vote_screen.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/',
@@ -61,7 +62,12 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/night',
       name: 'night',
-      builder: (context, state) =>  const NightScreen(),
+      builder: (context, state) => const NightScreen(),
+    ),
+    GoRoute(
+      path: '/vote',
+      name: 'vote',
+      builder: (context, state) => const VoteScreen(),
     )
   ],
 );

@@ -134,6 +134,10 @@ class DayScreenState extends ConsumerState<DayScreen> {
                       if (dayN == 1) {
                         context.pushReplacementNamed("night");
                       }
+                      else{
+                        ref.read(aliveProvider.notifier).countAlive();
+                        context.pushReplacementNamed('vote');
+                      }
                       //TODO implement when vote screen is done
                       // else
                       //   Navigator.of(context).pushReplacement(
