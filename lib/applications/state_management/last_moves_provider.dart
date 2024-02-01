@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'last_moves_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class LastMoves extends _$LastMoves {
 
   @override
@@ -19,7 +19,7 @@ class LastMoves extends _$LastMoves {
     final LastMove card = state.last;
     state = [
       for (final c in state)
-        if (c != card) card,
+        if (c != card) c,
     ];
     return card;
   }
