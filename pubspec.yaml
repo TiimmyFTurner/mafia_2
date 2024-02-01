@@ -48,6 +48,14 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   flutter_launcher_icons: ^0.13.1
 
+
+flutter_launcher_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+  image_path_android: "asset/theme/icon.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  min_sdk_android: 26 # android min sdk min:16, default 21
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
