@@ -78,11 +78,6 @@ class PlayerNames extends _$PlayerNames {
     ];
     _prefs.setStringList('lastPlayers', state);
   }
-
-// void recoverLastPlayers() {
-//   List<String>? lastPlayers = _prefs.getStringList('lastPlayers');
-//   if (lastPlayers != null) state = lastPlayers;
-// }
 }
 
 // **************************************************************************
@@ -198,9 +193,12 @@ class Alive extends _$SelectedIndependent {
   @override
   int build() => 0;
 
-  void increment() => state++;
-
-  void decrement() => state--;
+  void countAlive() {
+    state = 0;
+    ref.read(playersProvider).forEach((element) {
+      if (element.status != 'dead') state++;
+    });
+  }
 }
 
 // **************************************************************************
@@ -482,16 +480,13 @@ class Players extends _$Players {
       for (var i = 0; i < playerNames.length; i++) {
         state = [
           ...state,
-          Player(
-              name: playerNames[i],
-              status: 'alive',
-              role: selectedRoles[i])
+          Player(name: playerNames[i], status: 'alive', role: selectedRoles[i])
         ];
       }
     }
   }
 
-  void sortPlayers(){
+  void sortPlayers() {
     List<Player> temp = [...state];
     temp.sort((p1, p2) => p1.role.order.compareTo(p2.role.order));
     state = temp;
@@ -554,46 +549,3 @@ String winnerCheck(WinnerCheckRef ref) {
   }
   return '';
 }
-
-//TODO:IMPLEMENT THESE IN RIVERPOD
-
-// newGame() {
-// Roles roles = Roles();
-// _selectedRoles = [];
-// _playersWithRole = [];
-// _playersWithRoleFoShow = [];
-// _selectedCitizen = 0;
-// _selectedMafia = 0;
-// _selectedIndependent = 0;
-// _mafia = roles.mafia;
-// _citizen = roles.citizen;
-// _independent = roles.independent;
-// }
-
-//
-//
-// playGame() {
-//   _day = 1;
-//   _night = 1;
-//   _sortPlayer();
-// }
-//
-// startDay() {
-//   _night++;
-// }
-//
-// startVoting() {
-//   if (_day > 1) _playersWithRole.shuffle();
-//   _alives = 0;
-//   _playersWithRole.forEach((element) {
-//     if (element.status != 'dead') _alives++;
-//   });
-//   _day++;
-// }
-//
-// startNight() {
-//   _sortPlayer();
-// }
-//
-// _sortPlayer() =>
-//     _playersWithRole.sort((p1, p2) => p1.role.order.compareTo(p2.role.order));

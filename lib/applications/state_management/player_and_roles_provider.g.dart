@@ -181,7 +181,7 @@ final selectedIndependentProvider =
 );
 
 typedef _$SelectedIndependent = Notifier<int>;
-String _$aliveHash() => r'0f251a30d1ddeca5e2885e620abd34ff0213dc5e';
+String _$aliveHash() => r'049ac07c26c50ac487a3efa7ed5ab77092c4f3fe';
 
 /// See also [Alive].
 @ProviderFor(Alive)
