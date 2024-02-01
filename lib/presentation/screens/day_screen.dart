@@ -37,36 +37,32 @@ class DayScreenState extends ConsumerState<DayScreen> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(
-                  '${winner == 'C' ? 'تیم شهروند' : winner == 'M' ? 'تیم مافیا' : 'نقش مستقل'} پیروز این بازی شد ',
-                  textAlign: TextAlign.center),
+                '${winner == 'C' ? 'تیم شهروند' : winner == 'M' ? 'تیم مافیا' : 'نقش مستقل'} پیروز این بازی شد ',
+              ),
               actions: <Widget>[
-                ButtonBar(
-                  children: [
-                    TextButton(
-                      child: const Text("بازی جدید"),
-                      onPressed: () {
-                        ref.invalidate(noteProvider);
-                        ref.invalidate(selectedRolesProvider);
-                        ref.invalidate(playersProvider);
-                        ref.invalidate(selectedCitizenProvider);
-                        ref.invalidate(selectedMafiaProvider);
-                        ref.invalidate(selectedIndependentProvider);
-                        ref.invalidate(mafiasProvider);
-                        ref.invalidate(citizensProvider);
-                        ref.invalidate(independentsProvider);
-                        ref.invalidate(nightProvider);
-                        ref.invalidate(dayProvider);
-                        context.pop();
-                        context.pop();
-                      },
-                    ),
-                    TextButton(
-                      child: const Text("ادامه بازی"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+                TextButton(
+                  child: const Text("بازی جدید"),
+                  onPressed: () {
+                    ref.invalidate(noteProvider);
+                    ref.invalidate(selectedRolesProvider);
+                    ref.invalidate(playersProvider);
+                    ref.invalidate(selectedCitizenProvider);
+                    ref.invalidate(selectedMafiaProvider);
+                    ref.invalidate(selectedIndependentProvider);
+                    ref.invalidate(mafiasProvider);
+                    ref.invalidate(citizensProvider);
+                    ref.invalidate(independentsProvider);
+                    ref.invalidate(nightProvider);
+                    ref.invalidate(dayProvider);
+                    context.pop();
+                    context.pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text("ادامه بازی"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             );
@@ -94,7 +90,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
                   itemBuilder: (BuildContext context, int index) =>
                       index < players.length
                           ? ListItemDay(players[index])
-                          :const SizedBox(height: 75),
+                          : const SizedBox(height: 75),
                 ),
               ),
             ],
@@ -127,15 +123,18 @@ class DayScreenState extends ConsumerState<DayScreen> {
                 SizedBox(
                   height: 45,
                   child: FilledButton(
-
-                    child:  Row(
-                      children: [Text(dayN != 1 ? "رای گیری":"شب"), const Icon(Icons.navigate_next)],
+                    child: Row(
+                      children: [
+                        Text(dayN != 1 ? "رای گیری" : "شب"),
+                        const Icon(Icons.navigate_next)
+                      ],
                     ),
                     onPressed: () {
-                      //TODO implement when night and vote screen is done
+                      ref.read(dayProvider.notifier).increment();
                       if (dayN == 1) {
                         context.pushReplacementNamed("night");
                       }
+                      //TODO implement when vote screen is done
                       // else
                       //   Navigator.of(context).pushReplacement(
                       //     MaterialPageRoute(builder: (_) => Vote()),
