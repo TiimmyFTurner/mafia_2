@@ -81,7 +81,7 @@ class InGameAppBarState extends ConsumerState<InGameAppBar> {
                   title: const Text("بازی جدید ؟"),
                   actions: <Widget>[
                     TextButton(
-                        onPressed: Navigator.of(context).pop,
+                        onPressed: context.pop,
                         child: const Text("خیر")),
                     TextButton(
                       child: const Text("بله"),

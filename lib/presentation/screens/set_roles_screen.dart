@@ -120,7 +120,7 @@ class SetRolesScreen extends ConsumerWidget {
             TextButton(
               child: const Text("فهمیدم"),
               onPressed: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
           ],

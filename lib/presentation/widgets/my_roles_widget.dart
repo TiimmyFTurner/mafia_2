@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/role_model.dart';
 import 'package:mafia_2/presentation/widgets/role_list_item_widget.dart';
@@ -302,13 +303,13 @@ class MyRolesState extends ConsumerState<MyRoles> {
           actions: [
             TextButton(
               child: const Text("بازگشت"),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.pop(),
             ),
             TextButton(
               child: Text("حذف", style: TextStyle(color: Theme.of(context).colorScheme.error)),
               onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                context.pop();
+                context.pop();
                 ref.read(customRoleProvider.notifier).removeCustomRole(role);
               },
             )

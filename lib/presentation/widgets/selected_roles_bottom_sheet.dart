@@ -319,7 +319,7 @@ class SelectedRolesBottomSheetState
             TextButton(
               child: const Text("فهمیدم"),
               onPressed: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
           ],

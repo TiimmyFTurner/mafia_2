@@ -172,7 +172,7 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                                         height: 55,
                                         child: FilledButton.tonal(
                                           onPressed: () {
-                                            Navigator.of(context).pop();
+                                            context.pop();
                                           },
                                           child: const Text("فهمیدم"),
                                         ),

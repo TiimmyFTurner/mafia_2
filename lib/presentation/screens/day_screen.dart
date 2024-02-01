@@ -61,7 +61,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
                 TextButton(
                   child: const Text("ادامه بازی"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    context.pop();
                   },
                 ),
               ],
@@ -138,13 +138,6 @@ class DayScreenState extends ConsumerState<DayScreen> {
                         ref.read(aliveProvider.notifier).countAlive();
                         context.pushReplacementNamed('vote');
                       }
-                      //TODO implement when vote screen is done
-                      // else
-                      //   Navigator.of(context).pushReplacement(
-                      //     MaterialPageRoute(builder: (_) => Vote()),
-                      //   );
-                      // Provider.of<RolesNPlayers>(context, listen: false)
-                      //     .startVoting();
                     },
                   ),
                 )

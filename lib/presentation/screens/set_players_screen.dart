@@ -51,7 +51,7 @@ class _SetPlayersScreenState extends ConsumerState<SetPlayersScreen> {
                         ),
                         child: const Text("بازگشت"),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          context.pop();
                         },
                       ),
                     ],
