@@ -4,6 +4,7 @@ import 'package:mafia_2/presentation/screens/help_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/home_screen.dart';
 import 'package:mafia_2/presentation/screens/how_to_play_screen.dart';
 import 'package:mafia_2/presentation/screens/lock_screen.dart';
+import 'package:mafia_2/presentation/screens/night_screen.dart';
 import 'package:mafia_2/presentation/screens/set_players_screen.dart';
 import 'package:mafia_2/presentation/screens/set_roles_screen.dart';
 import 'package:mafia_2/presentation/screens/settings_screen.dart';
@@ -56,6 +57,11 @@ final GoRouter router = GoRouter(
       path: '/day',
       name: 'day',
       builder: (context, state) => const DayScreen(),
+    ),
+    GoRoute(
+      path: '/night',
+      name: 'night',
+      builder: (context, state) =>  const NightScreen(),
     )
   ],
 );

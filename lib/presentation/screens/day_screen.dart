@@ -133,10 +133,9 @@ class DayScreenState extends ConsumerState<DayScreen> {
                     ),
                     onPressed: () {
                       //TODO implement when night and vote screen is done
-                      // if (dayN == 1)
-                      //   Navigator.of(context).pushReplacement(
-                      //     MaterialPageRoute(builder: (_) => Night()),
-                      //   );
+                      if (dayN == 1) {
+                        context.pushReplacementNamed("night");
+                      }
                       // else
                       //   Navigator.of(context).pushReplacement(
                       //     MaterialPageRoute(builder: (_) => Vote()),
