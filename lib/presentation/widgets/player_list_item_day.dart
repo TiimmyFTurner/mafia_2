@@ -20,7 +20,7 @@ class ListItemDayState extends ConsumerState<ListItemDay> {
       color: player.status == 'alive'
           ? Colors.green[800]
           : player.status == 'silent'
-              ? Colors.grey
+              ? Colors.blueGrey
               : Colors.red[800],
       child: Row(
         children: <Widget>[
@@ -37,7 +37,7 @@ class ListItemDayState extends ConsumerState<ListItemDay> {
             flex: 2,
             child: Text(
               player.name,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white70),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -45,14 +45,14 @@ class ListItemDayState extends ConsumerState<ListItemDay> {
             flex: 1,
             child: Text(
               player.role.name,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white70),
               overflow: TextOverflow.ellipsis,
             ),
           ),
           IconButton(
               icon: const Icon(
                 Icons.power_settings_new,
-                color: Colors.white,
+                color: Colors.white70,
               ),
               onPressed: () {
                 ref.read(playersProvider.notifier).killPlayer(player.name);
