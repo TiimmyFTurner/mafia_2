@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.2.4
   action_slider: ^0.7.0
   font_awesome_flutter: ^10.7.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
