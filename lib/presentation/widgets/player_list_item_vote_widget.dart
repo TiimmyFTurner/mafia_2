@@ -54,19 +54,19 @@ class ListItemVoteState extends ConsumerState<ListItemVote> {
           ),
           IconButton(
               icon: const Icon(
-                Icons.power_settings_new,
-                color: Colors.white70,
-              ),
-              onPressed: () {
-                ref.read(playersProvider.notifier).killPlayer(player.name);
-              }),
-          IconButton(
-              icon: const Icon(
                 Icons.gavel,
                 color: Colors.white70,
               ),
               onPressed: () {
                 ref.read(playersProvider.notifier).judgePlayer(player.name);
+              }),
+          IconButton(
+              icon: const Icon(
+                Icons.power_settings_new,
+                color: Colors.white70,
+              ),
+              onPressed: () {
+                ref.read(playersProvider.notifier).killPlayer(player.name);
               }),
         ],
       ),
