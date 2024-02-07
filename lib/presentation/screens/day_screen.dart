@@ -10,6 +10,7 @@ import 'package:mafia_2/presentation/helpers/lock_timer.dart';
 import 'package:mafia_2/presentation/helpers/persian_number_helper.dart';
 import 'package:mafia_2/presentation/widgets/in_game_app_bar_widget.dart';
 import 'package:mafia_2/presentation/widgets/player_list_item_day.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class DayScreen extends ConsumerStatefulWidget {
   const DayScreen({super.key});
@@ -21,12 +22,10 @@ class DayScreen extends ConsumerStatefulWidget {
 Timer? _timer;
 int _current = 30, _timerTime = 30;
 
-List<int> _timerItems = [15, 30, 60, 90, 120, 180];
+List<int> _timerItems = [180, 120, 90, 60, 30, 15];
 
 class DayScreenState extends ConsumerState<DayScreen> {
   late int dayN;
-
-  // SampleItem? selectedMenu;
 
   @override
   void initState() {
@@ -145,6 +144,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
                         6,
                         (int index) => MenuItemButton(
                           onPressed: () {
+                            if (_timer != null) _timer!.cancel();
                             setState(() =>
                                 _current = _timerTime = _timerItems[index]);
                           },
@@ -164,6 +164,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
                       ],
                     ),
                     onPressed: () {
+                      if (_timer != null) _timer!.cancel();
                       ref.read(dayProvider.notifier).increment();
                       if (dayN == 1) {
                         context.pushReplacementNamed("night");
@@ -182,17 +183,16 @@ class DayScreenState extends ConsumerState<DayScreen> {
     );
   }
 
-  void startTimer() {
-    _current = _timerTime;
+  void startTimer() async {
+    setState(() => _current = _timerTime);
     if (_timer != null) _timer!.cancel();
-    _timer = Timer.periodic(const Duration(seconds: 1), (time) {
-      setState(() {
-        _current = _current - 1;
-        if (_current == 0) {
-          time.cancel();
-          _current = _timerTime;
-        }
-      });
+    _timer = Timer.periodic(const Duration(seconds: 1), (time) async {
+      setState(() => _current = _current - 1);
+      if (_current == 0) {
+        time.cancel();
+        _current = _timerTime;
+        await AudioPlayer().play(AssetSource('sounds/alarm.mp3'));
+      }
     });
   }
 }
