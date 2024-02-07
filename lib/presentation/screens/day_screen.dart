@@ -19,10 +19,14 @@ class DayScreen extends ConsumerStatefulWidget {
 }
 
 Timer? _timer;
-int _current = 30;
+int _current = 30, _timerTime = 30;
+
+List<int> _timerItems = [15, 30, 60, 90, 120, 180];
 
 class DayScreenState extends ConsumerState<DayScreen> {
   late int dayN;
+
+  // SampleItem? selectedMenu;
 
   @override
   void initState() {
@@ -103,22 +107,52 @@ class DayScreenState extends ConsumerState<DayScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                SizedBox(
-                  height: 45,
-                  child: FilledButton.tonal(
-                    onPressed: startTimer,
-                    child: Row(
-                      children: [
-                        const Icon(Icons.timer),
-                        Text(
-                          " ${_current.toString()}",
-                          style: const TextStyle(
-                            fontSize: 29,
-                          ),
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 45,
+                      child: FilledButton.tonal(
+                        onPressed: startTimer,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.timer),
+                            Text(
+                              " ${_current.toString()}",
+                              style: const TextStyle(
+                                fontSize: 29,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    MenuAnchor(
+                      builder: (BuildContext context, MenuController controller,
+                          Widget? child) {
+                        return IconButton(
+                          onPressed: () {
+                            if (controller.isOpen) {
+                              controller.close();
+                            } else {
+                              controller.open();
+                            }
+                          },
+                          icon: const Icon(Icons.keyboard_arrow_up),
+                          tooltip: 'Show menu',
+                        );
+                      },
+                      menuChildren: List<MenuItemButton>.generate(
+                        6,
+                        (int index) => MenuItemButton(
+                          onPressed: () {
+                            setState(() =>
+                                _current = _timerTime = _timerItems[index]);
+                          },
+                          child: Text('${_timerItems[index]}  ثانیه  '),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 45,
@@ -133,8 +167,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
                       ref.read(dayProvider.notifier).increment();
                       if (dayN == 1) {
                         context.pushReplacementNamed("night");
-                      }
-                      else{
+                      } else {
                         ref.read(aliveProvider.notifier).countAlive();
                         context.pushReplacementNamed('vote');
                       }
@@ -150,12 +183,15 @@ class DayScreenState extends ConsumerState<DayScreen> {
   }
 
   void startTimer() {
-    _current = 31;
+    _current = _timerTime;
     if (_timer != null) _timer!.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (time) {
       setState(() {
         _current = _current - 1;
-        if (_current < 1) time.cancel();
+        if (_current == 0) {
+          time.cancel();
+          _current = _timerTime;
+        }
       });
     });
   }
