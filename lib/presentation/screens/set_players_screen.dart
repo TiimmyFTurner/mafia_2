@@ -15,7 +15,7 @@ class _SetPlayersScreenState extends ConsumerState<SetPlayersScreen> {
   String _name = '';
 
   void _addPlayer([_]) {
-    if (_name != '') {
+    if (_name != '' && !ref.read(playerNamesProvider).contains(_name)) {
       ref.read(playerNamesProvider.notifier).addPlayer(_name);
       _name = '';
       _controller.clear();
