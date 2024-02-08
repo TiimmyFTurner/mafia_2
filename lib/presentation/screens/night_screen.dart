@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +15,8 @@ class NightScreen extends ConsumerStatefulWidget {
   @override
   NightScreenState createState() => NightScreenState();
 }
+
+AudioPlayer audioPlayer = AudioPlayer();
 
 class NightScreenState extends ConsumerState<NightScreen> {
   @override
@@ -54,34 +57,42 @@ class NightScreenState extends ConsumerState<NightScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                // SizedBox(
-                //   height: 45,
-                //   child: ElevatedButton(
-                //
-                //     child: Row(
-                //       children: [
-                //         const Text("موزیک", textDirection: TextDirection.rtl),
-                //         Icon(
-                //           Provider.of<Music>(context).isPlaying
-                //               ? Icons.stop
-                //               : Icons.play_arrow,
-                //         ),
-                //       ],
-                //     ),
-                //     onPressed: () =>
-                //         Provider.of<Music>(context, listen: false).toggle(),
-                //   ),
-                // ),
-                // Expanded(child: Container()),
+                SizedBox(
+                  height: 45,
+                  child: FilledButton.tonal(
+                    child: Row(
+                      children: [
+                        Icon(
+                          audioPlayer.state != PlayerState.playing
+                              ? Icons.play_arrow
+                              : Icons.stop,
+                        ),
+                        const Text("  موزیک "),
+                      ],
+                    ),
+                    onPressed: () async {
+                      if (audioPlayer.state != PlayerState.playing) {
+                        await audioPlayer.play(AssetSource('sounds/night.mp3'));
+                      } else {
+                        await audioPlayer.stop();
+                      }
+                      setState(() {});
+                    },
+                  ),
+                ),
+                Expanded(child: Container()),
                 SizedBox(
                   height: 45,
                   child: FilledButton(
                     child: const Row(
                       children: [Text("  روز"), Icon(Icons.navigate_next)],
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      if (audioPlayer.state == PlayerState.playing) {
+                        await audioPlayer.stop();
+                      }
                       ref.read(nightProvider.notifier).increment();
-                      context.pushReplacementNamed('day');
+                      if (context.mounted) context.pushReplacementNamed('day');
                     },
                   ),
                 ),
