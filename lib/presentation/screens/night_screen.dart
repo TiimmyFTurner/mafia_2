@@ -59,17 +59,13 @@ class NightScreenState extends ConsumerState<NightScreen> {
               children: <Widget>[
                 SizedBox(
                   height: 45,
-                  child: FilledButton.tonal(
-                    child: Row(
-                      children: [
-                        Icon(
-                          audioPlayer.state != PlayerState.playing
-                              ? Icons.play_arrow
-                              : Icons.stop,
-                        ),
-                        const Text("  موزیک "),
-                      ],
+                  child: FilledButton.tonalIcon(
+                    icon: Icon(
+                      audioPlayer.state != PlayerState.playing
+                          ? Icons.play_arrow
+                          : Icons.stop,
                     ),
+                    label: const Text("موزیک"),
                     onPressed: () async {
                       if (audioPlayer.state != PlayerState.playing) {
                         await audioPlayer.play(AssetSource('sounds/night.mp3'));
