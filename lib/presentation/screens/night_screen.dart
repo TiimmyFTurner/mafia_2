@@ -55,7 +55,7 @@ class NightScreenState extends ConsumerState<NightScreen> {
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 SizedBox(
                   height: 45,
@@ -76,7 +76,6 @@ class NightScreenState extends ConsumerState<NightScreen> {
                     },
                   ),
                 ),
-                Expanded(child: Container()),
                 SizedBox(
                   height: 45,
                   child: FilledButton(
