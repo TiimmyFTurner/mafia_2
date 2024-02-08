@@ -133,7 +133,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
                             }
                           },
                           icon: const Icon(Icons.keyboard_arrow_up),
-                          tooltip: 'Show menu',
+                          tooltip: 'تغییر زمان تایمر',
                         );
                       },
                       menuChildren: List<MenuItemButton>.generate(
