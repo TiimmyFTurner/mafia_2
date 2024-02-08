@@ -110,19 +110,15 @@ class DayScreenState extends ConsumerState<DayScreen> {
                   children: [
                     SizedBox(
                       height: 45,
-                      child: FilledButton.tonal(
-                        onPressed: startTimer,
-                        child: Row(
-                          children: [
-                            const Icon(Icons.timer),
-                            Text(
-                              " ${_current.toString()}",
-                              style: const TextStyle(
-                                fontSize: 29,
-                              ),
-                            ),
-                          ],
+                      child: FilledButton.tonalIcon(
+                        icon: const Icon(Icons.timer),
+                        label: Text(
+                          " ${_current.toString()}",
+                          style: const TextStyle(
+                            fontSize: 29,
+                          ),
                         ),
+                        onPressed: startTimer,
                       ),
                     ),
                     MenuAnchor(
@@ -156,25 +152,24 @@ class DayScreenState extends ConsumerState<DayScreen> {
                 ),
                 SizedBox(
                   height: 45,
-                  child: FilledButton(
-                    child: Row(
-                      children: [
-                        Text(dayN != 1 ? "رای گیری" : "شب"),
-                        const Icon(Icons.navigate_next)
-                      ],
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: FilledButton.icon(
+                      icon: const Icon(Icons.navigate_before),
+                      label: Text(dayN != 1 ? "رای گیری" : "شب"),
+                      onPressed: () {
+                        if (_timer != null) _timer!.cancel();
+                        ref.read(dayProvider.notifier).increment();
+                        if (dayN == 1) {
+                          context.pushReplacementNamed("night");
+                        } else {
+                          ref.read(aliveProvider.notifier).countAlive();
+                          context.pushReplacementNamed('vote');
+                        }
+                      },
                     ),
-                    onPressed: () {
-                      if (_timer != null) _timer!.cancel();
-                      ref.read(dayProvider.notifier).increment();
-                      if (dayN == 1) {
-                        context.pushReplacementNamed("night");
-                      } else {
-                        ref.read(aliveProvider.notifier).countAlive();
-                        context.pushReplacementNamed('vote');
-                      }
-                    },
                   ),
-                )
+                ),
               ],
             ),
           ),

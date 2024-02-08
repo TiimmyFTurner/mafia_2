@@ -53,7 +53,7 @@ class NightScreenState extends ConsumerState<NightScreen> {
         bottomSheet: SizedBox(
           height: 80,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -78,17 +78,19 @@ class NightScreenState extends ConsumerState<NightScreen> {
                 ),
                 SizedBox(
                   height: 45,
-                  child: FilledButton(
-                    child: const Row(
-                      children: [Text("  روز"), Icon(Icons.navigate_next)],
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: FilledButton.icon(
+                      icon: const Icon(Icons.navigate_before),
+                      label: const Text("روز"),
+                      onPressed: () async {
+                        if (audioPlayer.state == PlayerState.playing) {
+                          await audioPlayer.stop();
+                        }
+                        ref.read(nightProvider.notifier).increment();
+                        if (context.mounted) context.pushReplacementNamed('day');
+                      },
                     ),
-                    onPressed: () async {
-                      if (audioPlayer.state == PlayerState.playing) {
-                        await audioPlayer.stop();
-                      }
-                      ref.read(nightProvider.notifier).increment();
-                      if (context.mounted) context.pushReplacementNamed('day');
-                    },
                   ),
                 ),
               ],

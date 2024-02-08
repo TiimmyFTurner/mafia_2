@@ -152,8 +152,9 @@ class VoteScreenState extends ConsumerState<VoteScreen> {
                       children: [Text("حرکت آخر")],
                     ),
                     onPressed: () {
-                      LastMove card = ref.read(lastMovesProvider.notifier).pickCard();
-                       showDialog(
+                      LastMove card =
+                          ref.read(lastMovesProvider.notifier).pickCard();
+                      showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
@@ -172,12 +173,10 @@ class VoteScreenState extends ConsumerState<VoteScreen> {
                               TextButton(
                                 style: ButtonStyle(
                                   foregroundColor:
-                                      MaterialStateProperty.all(
-                                          Colors.white),
+                                      MaterialStateProperty.all(Colors.white),
                                 ),
                                 child: const Text("بازگشت"),
-                                onPressed: () =>
-                                    context.pop(),
+                                onPressed: () => context.pop(),
                               ),
                             ],
                           );
@@ -188,15 +187,17 @@ class VoteScreenState extends ConsumerState<VoteScreen> {
                 ),
                 SizedBox(
                   height: 45,
-                  child: FilledButton(
-                    child: const Row(
-                      children: [Text(" شب"), Icon(Icons.navigate_next)],
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: FilledButton.icon(
+                      icon: const Icon(Icons.navigate_before),
+                      label: const Text("شب"),
+                      onPressed: () {
+                        context.pushReplacementNamed('night');
+                      },
                     ),
-                    onPressed: () {
-                      context.pushReplacementNamed('night');
-                    },
                   ),
-                )
+                ),
               ],
             ),
           ),
