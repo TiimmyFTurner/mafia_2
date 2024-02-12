@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class ListItemNightState extends ConsumerState<ListItemNight> {
                   color: Colors.white70,
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   ref.read(playersProvider.notifier).silentPlayer(player.name);
                 }),
             IconButton(
@@ -67,6 +69,7 @@ class ListItemNightState extends ConsumerState<ListItemNight> {
                   color: Colors.white70,
                 ),
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   ref.read(playersProvider.notifier).killPlayer(player.name);
                 }),
           ],
@@ -77,7 +80,6 @@ class ListItemNightState extends ConsumerState<ListItemNight> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-
               title: const Text(
                 "وظیفه",
               ),
@@ -86,12 +88,12 @@ class ListItemNightState extends ConsumerState<ListItemNight> {
               ),
               actions: <Widget>[
                 // TextButton(
-                  //   onPressed: () {},
-                  // => Navigator.of(context).push(
-                  //             MaterialPageRoute(
-                  //               builder: (_) => BigRoleName(player.role.name),
-                  //             ),
-                  //           ),
+                //   onPressed: () {},
+                // => Navigator.of(context).push(
+                //             MaterialPageRoute(
+                //               builder: (_) => BigRoleName(player.role.name),
+                //             ),
+                //           ),
                 //   child: const Text("نمایش تمام صفحه نقش"),
                 // ),
                 TextButton(

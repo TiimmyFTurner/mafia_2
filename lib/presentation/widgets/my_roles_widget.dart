@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
@@ -164,6 +165,7 @@ class MyRolesState extends ConsumerState<MyRoles> {
                     ),
                     onPressed: () {
                       if (_addRoleFormKey.currentState!.validate()) {
+                        HapticFeedback.lightImpact();
                         ref.read(customRoleProvider.notifier).addCustomRole(
                               Role(
                                 name: _nameController.text,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
@@ -58,6 +59,7 @@ class ListItemVoteState extends ConsumerState<ListItemVote> {
                 color: Colors.white70,
               ),
               onPressed: () {
+                HapticFeedback.lightImpact();
                 ref.read(playersProvider.notifier).judgePlayer(player.name);
               }),
           IconButton(
@@ -66,6 +68,7 @@ class ListItemVoteState extends ConsumerState<ListItemVote> {
                 color: Colors.white70,
               ),
               onPressed: () {
+                HapticFeedback.lightImpact();
                 ref.read(playersProvider.notifier).killPlayer(player.name);
               }),
         ],
