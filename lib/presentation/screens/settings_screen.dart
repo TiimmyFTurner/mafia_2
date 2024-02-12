@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
+import 'package:mafia_2/applications/state_management/settings_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -13,6 +15,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    String themeName = ref.watch(themeModeSettingProvider).name;
     bool limitLock = ref.watch(limitLockProvider);
     bool starRole = ref.watch(starRoleProvider);
     // bool platformDarkMode =
@@ -66,10 +69,80 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             value: starRole,
             onChanged: limitLock
                 ? null
-                : (value) =>
-                ref.read(starRoleProvider.notifier).toggle(),
+                : (value) => ref.read(starRoleProvider.notifier).toggle(),
           ),
           starRoleNote(),
+          const Divider(),
+          ListTile(
+              title: const Text("انتخاب تم"),
+              subtitle: Text(
+                themeName == "light"
+                    ? "روشن"
+                    : themeName == 'dark'
+                        ? 'تاریک'
+                        : 'پیش فرض سیستم',
+              ),
+              onTap: () {
+                ThemeMode themeMode = ref.read(themeModeSettingProvider);
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      StatefulBuilder(builder: (context, setState) {
+                    return AlertDialog(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text("انتخاب تم"),
+                      content:
+                          Column(mainAxisSize: MainAxisSize.min, children: [
+                        RadioListTile<ThemeMode>(
+                          title: const Text("روشن"),
+                          value: ThemeMode.light,
+                          groupValue: themeMode,
+                          onChanged: (value) {
+                            setState(() {
+                              themeMode = value!;
+                            });
+                          },
+                        ),
+                        RadioListTile<ThemeMode>(
+                          title: const Text("تاریک"),
+                          value: ThemeMode.dark,
+                          groupValue: themeMode,
+                          onChanged: (value) {
+                            setState(() {
+                              themeMode = value!;
+                            });
+                          },
+                        ),
+                        RadioListTile<ThemeMode>(
+                          title: const Text("پیش فرض سیستم"),
+                          value: ThemeMode.system,
+                          groupValue: themeMode,
+                          onChanged: (value) {
+                            setState(() {
+                              themeMode = value!;
+                            });
+                          },
+                        ),
+                      ]),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => context.pop(),
+                          child: const Text("انصراف"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                            ref
+                                .read(themeModeSettingProvider.notifier)
+                                .changeTheme(themeMode);
+                          },
+                          child: const Text("تایید"),
+                        ),
+                      ],
+                    );
+                  }),
+                );
+              }),
           Center(
             child: Column(
               children: [

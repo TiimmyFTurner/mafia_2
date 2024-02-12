@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mafia_2/applications/state_management/settings_provider.dart';
 import 'package:mafia_2/applications/state_management/shared_preferences_provider.dart';
 import 'package:mafia_2/infrastructure/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,11 +16,11 @@ Future<void> main() async {
   ));
 }
 
-class Mafia2App extends StatelessWidget {
+class Mafia2App extends ConsumerWidget {
   const Mafia2App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     final ColorScheme defaultLightColorScheme =
         ColorScheme.fromSeed(seedColor: Colors.tealAccent);
     final ColorScheme defaultDarkColorScheme = ColorScheme.fromSeed(
@@ -37,6 +38,7 @@ class Mafia2App extends StatelessWidget {
                 colorScheme: darkColorScheme ?? defaultDarkColorScheme,
                 useMaterial3: true,
                 fontFamily: 'Koodak'),
+            themeMode: ref.watch(themeModeSettingProvider),
             debugShowCheckedModeBanner: false,
             localizationsDelegates: const [
               GlobalCupertinoLocalizations.delegate,
