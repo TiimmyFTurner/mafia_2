@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
@@ -30,6 +31,7 @@ class SetRolesScreen extends ConsumerWidget {
                     radius: 200,
                     child: RoleListItemWidget(roles[index]),
                     onTap: () {
+                      HapticFeedback.lightImpact();
                       ref
                           .read(selectedRolesProvider.notifier)
                           .addRole(roles[index]);

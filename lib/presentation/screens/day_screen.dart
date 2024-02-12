@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 import 'package:mafia_2/applications/state_management/note_provider.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
@@ -158,6 +159,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
                       icon: const Icon(Icons.navigate_before),
                       label: Text(dayN != 1 ? "رای گیری" : "شب"),
                       onPressed: () {
+                        HapticFeedback.lightImpact();
                         if (_timer != null) _timer!.cancel();
                         ref.read(dayProvider.notifier).increment();
                         if (dayN == 1) {
@@ -179,6 +181,7 @@ class DayScreenState extends ConsumerState<DayScreen> {
   }
 
   void startTimer() async {
+    HapticFeedback.lightImpact();
     setState(() => _current = _timerTime);
     if (_timer != null) _timer!.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (time) async {

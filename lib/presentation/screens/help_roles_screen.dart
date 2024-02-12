@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/role_model.dart';
@@ -65,6 +66,7 @@ class HelpRolesScreen extends ConsumerWidget {
           (index) => GestureDetector(
             child: RoleListItemWidget(roles[index]),
             onTap: () {
+              HapticFeedback.lightImpact();
               showModalBottomSheet(
                 showDragHandle: true,
                 context: context,

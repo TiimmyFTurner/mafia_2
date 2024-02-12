@@ -1,5 +1,6 @@
 import 'package:action_slider/action_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class LockScreen extends StatelessWidget {
@@ -25,6 +26,7 @@ class LockScreen extends StatelessWidget {
                 backgroundColor: Theme.of(context).colorScheme.onPrimary,
                 action: (controller) async {
                   controller.success();
+                  HapticFeedback.lightImpact();
                   await Future.delayed(const Duration(seconds: 1));
                   if (!context.mounted) return;
                   context.pop();

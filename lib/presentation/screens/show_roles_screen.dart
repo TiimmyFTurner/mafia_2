@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
@@ -50,6 +51,7 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                       sliderBehavior: SliderBehavior.stretch,
                       backgroundColor: Theme.of(context).colorScheme.onPrimary,
                       action: (controller) async {
+                        HapticFeedback.lightImpact();
                         controller.success();
                         await Future.delayed(const Duration(seconds: 1));
                         if (!context.mounted) return;
@@ -106,6 +108,7 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                         ),
                       ),
                       onTap: () {
+                        HapticFeedback.lightImpact();
                         String role = players[index].role.type == 'C'
                             ? "شهروند"
                             : players[index].role.type == 'M'

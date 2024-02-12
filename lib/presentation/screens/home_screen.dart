@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
@@ -43,10 +44,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           "شروع بازی جدید",
                           style: TextStyle(fontSize: 24),
                         ),
-                        onPressed: () => {
-                          context.pushReplacementNamed('setPlayers')
-                        }
-                        ),
+                        onPressed: () {
+                          HapticFeedback.lightImpact();
+                          context.pushReplacementNamed('setPlayers');
+                        }),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -66,7 +67,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             "روش بازی",
                             style: TextStyle(fontSize: 24),
                           ),
-                          onPressed: () => context.pushNamed('howToPlay'),
+                          onPressed: () {
+                            HapticFeedback.lightImpact();
+                            context.pushNamed('howToPlay');
+                          },
                         ),
                       ),
                     ),
@@ -86,7 +90,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             style: TextStyle(fontSize: 24),
                           ),
                           onPressed: () {
-                            ref.read(customRoleProvider.notifier).recoverRoles();
+                            HapticFeedback.lightImpact();
+                            ref
+                                .read(customRoleProvider.notifier)
+                                .recoverRoles();
                             context.pushNamed('helpRolesScreen');
                           },
                         ),
@@ -110,7 +117,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       "تنظیمات",
                       style: TextStyle(fontSize: 23),
                     ),
-                    onPressed: () => context.pushNamed('settings'),
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      context.pushNamed('settings');
+                    },
                   ),
                 ),
                 const SizedBox(height: 28),

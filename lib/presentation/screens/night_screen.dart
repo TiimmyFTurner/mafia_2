@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
@@ -84,6 +85,7 @@ class NightScreenState extends ConsumerState<NightScreen> {
                       icon: const Icon(Icons.navigate_before),
                       label: const Text("روز"),
                       onPressed: () async {
+                        HapticFeedback.lightImpact();
                         if (audioPlayer.state == PlayerState.playing) {
                           await audioPlayer.stop();
                         }
