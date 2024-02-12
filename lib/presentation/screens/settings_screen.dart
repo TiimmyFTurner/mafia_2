@@ -18,14 +18,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     String themeName = ref.watch(themeModeSettingProvider).name;
     bool limitLock = ref.watch(limitLockProvider);
     bool starRole = ref.watch(starRoleProvider);
-    // bool platformDarkMode =
-    //     MediaQuery.of(context).platformBrightness == Brightness.dark;
-    // Widget themeNote() => platformDarkMode
-    //     ? Padding(
-    //         padding: EdgeInsets.only(right: 15, left: 12, bottom: 15),
-    //         child: Text(
-    //             "در صورت فعال بودن تم تاریک دستکاه نمیتوانید تم را تغییر دهید"))
-    //     : Container();
     Widget starRoleNote() => limitLock
         ? const Padding(
             padding: EdgeInsets.only(right: 15, left: 12, bottom: 15),
@@ -37,21 +29,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // const SizedBox(height: 12),
-          // Card(
-          //   child: SwitchListTile(
-          //     title: Text("تم تاریک"),
-          //     activeColor: Theme.of(context).colorScheme.secondary,
-          //     value: platformDarkMode
-          //         ? true
-          //         : Provider.of<Settings>(context).darkMode,
-          //     onChanged: platformDarkMode
-          //         ? null
-          //         : (value) => Provider.of<Settings>(context, listen: false)
-          //             .switchDarkMode = value,
-          //   ),
-          // ),
-          // themeNote(),
           SwitchListTile(
             title: const Text("محدودیت نسبت "),
             subtitle: const Text(
@@ -65,7 +42,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             subtitle: const Text(
               'در صورت نیاز استفاده از یک نقش بیش از یک بار برای سناریو های مختلف میتوانید این ویژگی را فعال کنید',
             ),
-            // activeColor: Theme.of(context).colorScheme.secondary,
             value: starRole,
             onChanged: limitLock
                 ? null
