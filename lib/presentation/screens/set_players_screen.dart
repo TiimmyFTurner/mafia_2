@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
+import 'package:mafia_2/infrastructure/router/routes_constant.dart';
 
 class SetPlayersScreen extends ConsumerStatefulWidget {
   const SetPlayersScreen({super.key});
@@ -34,7 +35,7 @@ class _SetPlayersScreenState extends ConsumerState<SetPlayersScreen> {
           centerTitle: true,
           leading: IconButton(
             icon: const Icon(Icons.home),
-            onPressed: () => context.pushReplacementNamed('homeScreen'),
+            onPressed: () => context.pushReplacement(Routes.homeRoutePath),
           ),
           actions: <Widget>[
             IconButton(
@@ -115,7 +116,7 @@ class _SetPlayersScreenState extends ConsumerState<SetPlayersScreen> {
                       HapticFeedback.lightImpact();
                       if (players.length > 2) {
                         ref.read(customRoleProvider.notifier).recoverRoles();
-                        context.pushNamed('setRoles');
+                        context.push(Routes.setRolesRoutePath);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

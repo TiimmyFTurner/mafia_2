@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/note_provider.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
+import 'package:mafia_2/infrastructure/router/routes_constant.dart';
 
 class InGameAppBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
@@ -70,7 +71,7 @@ class InGameAppBarState extends ConsumerState<InGameAppBar> {
       actions: <Widget>[
         IconButton(
             icon: const Icon(Icons.lock_outline),
-            onPressed: () => context.pushNamed("lock")),
+            onPressed: () => context.push(Routes.lockRoutePath)),
         IconButton(
           icon: const Icon(Icons.fiber_new),
           onPressed: () {

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
+import 'package:mafia_2/infrastructure/router/routes_constant.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -46,7 +47,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         onPressed: () {
                           HapticFeedback.lightImpact();
-                          context.pushReplacementNamed('setPlayers');
+                          context.pushReplacement(Routes.setPlayersRoutePath);
                         }),
                   ),
                 ),
@@ -69,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           onPressed: () {
                             HapticFeedback.lightImpact();
-                            context.pushNamed('howToPlay');
+                            context.push(Routes.howToPlayRoutePath);
                           },
                         ),
                       ),
@@ -94,7 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ref
                                 .read(customRoleProvider.notifier)
                                 .recoverRoles();
-                            context.pushNamed('helpRolesScreen');
+                            context.push(Routes.helpRolesRoutePath);
                           },
                         ),
                       ),
@@ -119,7 +120,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                     onPressed: () {
                       HapticFeedback.lightImpact();
-                      context.pushNamed('settings');
+                      context.push(Routes.settingsRoutePath);
                     },
                   ),
                 ),

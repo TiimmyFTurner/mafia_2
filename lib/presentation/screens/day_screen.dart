@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:mafia_2/applications/state_management/note_provider.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
+import 'package:mafia_2/infrastructure/router/routes_constant.dart';
 import 'package:mafia_2/presentation/helpers/lock_timer.dart';
 import 'package:mafia_2/presentation/helpers/persian_number_helper.dart';
 import 'package:mafia_2/presentation/widgets/in_game_app_bar_widget.dart';
@@ -163,10 +164,10 @@ class DayScreenState extends ConsumerState<DayScreen> {
                         if (_timer != null) _timer!.cancel();
                         ref.read(dayProvider.notifier).increment();
                         if (dayN == 1) {
-                          context.pushReplacementNamed("night");
+                          context.pushReplacement(Routes.nightRoutePath);
                         } else {
                           ref.read(aliveProvider.notifier).countAlive();
-                          context.pushReplacementNamed('vote');
+                          context.pushReplacement(Routes.voteRoutePath);
                         }
                       },
                     ),

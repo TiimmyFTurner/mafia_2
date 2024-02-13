@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
+import 'package:mafia_2/infrastructure/router/routes_constant.dart';
 import 'package:mafia_2/presentation/helpers/lock_timer.dart';
 import 'package:mafia_2/presentation/helpers/persian_number_helper.dart';
 import 'package:mafia_2/presentation/widgets/in_game_app_bar_widget.dart';
@@ -90,7 +91,7 @@ class NightScreenState extends ConsumerState<NightScreen> {
                           await audioPlayer.stop();
                         }
                         ref.read(nightProvider.notifier).increment();
-                        if (context.mounted) context.pushReplacementNamed('day');
+                        if (context.mounted) context.pushReplacement(Routes.dayRoutePath);
                       },
                     ),
                   ),

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
 import 'package:action_slider/action_slider.dart';
+import 'package:mafia_2/infrastructure/router/routes_constant.dart';
 import 'package:mafia_2/presentation/widgets/in_game_app_bar_widget.dart';
 
 class ShowRolesScreen extends ConsumerStatefulWidget {
@@ -56,7 +57,7 @@ class ShowRolesScreenState extends ConsumerState<ShowRolesScreen> {
                         await Future.delayed(const Duration(seconds: 1));
                         if (!context.mounted) return;
                         ref.read(playersProvider.notifier).sortPlayers();
-                        context.pushReplacementNamed('day');
+                        context.pushReplacement(Routes.dayRoutePath);
                       },
                       child: const Text("برای شروع بازی بکشید"),
                     ),

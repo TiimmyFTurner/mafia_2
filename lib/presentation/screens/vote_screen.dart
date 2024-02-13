@@ -6,6 +6,7 @@ import 'package:mafia_2/applications/state_management/last_moves_provider.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/last_move_model.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
+import 'package:mafia_2/infrastructure/router/routes_constant.dart';
 import 'package:mafia_2/presentation/helpers/lock_timer.dart';
 import 'package:mafia_2/presentation/widgets/in_game_app_bar_widget.dart';
 import 'package:mafia_2/presentation/widgets/player_list_item_vote_widget.dart';
@@ -193,7 +194,7 @@ class VoteScreenState extends ConsumerState<VoteScreen> {
                       icon: const Icon(Icons.navigate_before),
                       label: const Text("شب"),
                       onPressed: () {
-                        context.pushReplacementNamed('night');
+                        context.pushReplacement(Routes.nightRoutePath);
                       },
                     ),
                   ),
