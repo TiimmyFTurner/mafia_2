@@ -1,11 +1,15 @@
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
 import 'package:mafia_2/applications/state_management/shared_preferences_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
 import 'package:mafia_2/domain/data_models/role_model.dart';
 import 'package:mafia_2/infrastructure/data/roles_data.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'player_and_roles_provider.g.dart';
 

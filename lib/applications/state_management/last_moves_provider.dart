@@ -1,7 +1,9 @@
+// Package imports:
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+// Project imports:
 import 'package:mafia_2/domain/data_models/last_move_model.dart';
 import 'package:mafia_2/infrastructure/data/last_moves_data.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'last_moves_provider.g.dart';
 

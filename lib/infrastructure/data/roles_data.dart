@@ -1,3 +1,4 @@
+// Project imports:
 import 'package:mafia_2/domain/data_models/role_model.dart';
 
 class Roles {

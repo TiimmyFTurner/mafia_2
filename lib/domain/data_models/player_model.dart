@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+// Project imports:
 import 'package:mafia_2/domain/data_models/role_model.dart';
 
 part 'player_model.freezed.dart';

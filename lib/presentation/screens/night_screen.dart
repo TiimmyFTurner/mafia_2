@@ -1,8 +1,13 @@
-import 'package:audioplayers/audioplayers.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Package imports:
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+// Project imports:
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
 import 'package:mafia_2/infrastructure/router/routes_constant.dart';

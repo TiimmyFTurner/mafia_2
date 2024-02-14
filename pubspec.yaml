@@ -72,6 +72,7 @@ dev_dependencies:
   riverpod_generator: ^2.3.9
   custom_lint: ^0.5.8
   riverpod_lint: ^2.3.7
+  import_sorter: ^4.6.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

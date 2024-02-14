@@ -1,9 +1,16 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// Package imports:
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter/services.dart';
+
+// Project imports:
 import 'package:mafia_2/applications/state_management/note_provider.dart';
 import 'package:mafia_2/applications/state_management/player_and_roles_provider.dart';
 import 'package:mafia_2/domain/data_models/player_model.dart';
@@ -12,7 +19,6 @@ import 'package:mafia_2/presentation/helpers/lock_timer.dart';
 import 'package:mafia_2/presentation/helpers/persian_number_helper.dart';
 import 'package:mafia_2/presentation/widgets/in_game_app_bar_widget.dart';
 import 'package:mafia_2/presentation/widgets/player_list_item_day.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class DayScreen extends ConsumerStatefulWidget {
   const DayScreen({super.key});

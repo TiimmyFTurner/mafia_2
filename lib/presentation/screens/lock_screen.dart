@@ -1,6 +1,9 @@
-import 'package:action_slider/action_slider.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// Package imports:
+import 'package:action_slider/action_slider.dart';
 import 'package:go_router/go_router.dart';
 
 class LockScreen extends StatelessWidget {

@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:mafia_2/domain/data_models/role_model.dart';
 
 class RoleListItemWidget extends StatefulWidget {

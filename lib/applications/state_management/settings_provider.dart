@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:mafia_2/applications/state_management/shared_preferences_provider.dart';
+
+// Package imports:
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// Project imports:
+import 'package:mafia_2/applications/state_management/shared_preferences_provider.dart';
 
 part 'settings_provider.g.dart';
 
