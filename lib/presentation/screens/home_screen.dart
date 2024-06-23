@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         onPressed: () {
                           HapticFeedback.lightImpact();
-                          context.pushReplacement(Routes.setPlayersRoutePath);
+                          context.push(Routes.setPlayersRoutePath);
                         }),
                   ),
                 ),
